@@ -9,6 +9,7 @@ public class AI {
     String difficulty;
 }
 
+
 class Medium{
     static int[] turn(int[][] board, int turn){
         int a;
@@ -31,6 +32,6 @@ class Minmax{
             return 1;
     }
     static int[] minmax(int[][] board, int turn){
-
+        return new int[] {1};
     }
 }
