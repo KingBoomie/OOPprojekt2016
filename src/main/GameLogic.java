@@ -23,7 +23,10 @@ public class GameLogic {
     }
 
     public GameLogic(int curPlayer) {
-        this.gameboard = new int[B_SIZE][B_SIZE]; // initialized to 0
+        this.gameboard = new int[B_SIZE][B_SIZE];
+        int[] tempRow = new int[B_SIZE];
+        Arrays.fill(tempRow, -1);
+        Arrays.fill(gameboard, tempRow);
         this.curPlayer = curPlayer;
     }
 
