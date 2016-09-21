@@ -65,12 +65,9 @@ public class GameLogic {
         for (int y = 0; y < B_SIZE; y++) {
             int player1 = Arrays.stream(gameboard[y]).filter( cell -> cell == PLAYER1).sum();
             int player2 = Arrays.stream(gameboard[y]).filter( cell -> cell == PLAYER2).sum();
-            
-            if (player1 == B_SIZE) {
-                return PLAYER1;
-            }else if (player2 == B_SIZE) {
-                return PLAYER2;
-            }
+
+            Integer x = winner(player1, player2);
+            if (x != null) return x;
         }
         // check vertical
         for (int x = 0; x < B_SIZE; x++) {
@@ -84,12 +81,8 @@ public class GameLogic {
                 }
             }
 
-            if (player1 == B_SIZE) {
-                return PLAYER1;
-            }else if (player2 == B_SIZE) {
-                return PLAYER2;
-            }
-
+            Integer w = winner(player1, player2);
+            if (w != null) return w;
         }
         // check diag1
         {
@@ -102,11 +95,8 @@ public class GameLogic {
                     player2++;
                 }
             }
-            if (player1 == B_SIZE) {
-                return PLAYER1;
-            }else if (player2 == B_SIZE) {
-                return PLAYER2;
-            }
+            Integer x = winner(player1, player2);
+            if (x != null) return x;
         }
         // check diag2
         {
@@ -115,17 +105,23 @@ public class GameLogic {
             for (int i = 0; i < B_SIZE; i++) {
                 if (gameboard[i][B_SIZE - i - 1] == PLAYER1) {
                     player1++;
-                }else if(gameboard[i][B_SIZE - i - 1] == PLAYER2) {
+                } else if (gameboard[i][B_SIZE - i - 1] == PLAYER2) {
                     player2++;
                 }
             }
-            if (player1 == B_SIZE) {
-                return PLAYER1;
-            }else if (player2 == B_SIZE) {
-                return PLAYER2;
-            }
+            Integer x = winner(player1, player2);
+            if (x != null) return x;
         }
         return 0;
+    }
+
+    private Integer winner(int player1, int player2) {
+        if (player1 == B_SIZE) {
+            return PLAYER1;
+        }else if (player2 == B_SIZE) {
+            return PLAYER2;
+        }
+        return null;
     }
 
 
