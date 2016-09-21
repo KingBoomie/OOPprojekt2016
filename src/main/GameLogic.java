@@ -11,18 +11,15 @@ import static java.lang.Math.abs;
 public class GameLogic {
     private static final int B_SIZE = 3;
 
-
     private int gameboard[][];
     private int curPlayer = 0;
 
-    private class Point2D {
-        public int y;
-        public int x;
+    public int[][] getGameboard() {
+        return gameboard;
+    }
 
-        public Point2D(int y, int x) {
-            this.x = x;
-            this.y = y;
-        }
+    public void setGameboard(int[][] gameboard) {
+        this.gameboard = gameboard;
     }
 
     public GameLogic(int curPlayer) {
