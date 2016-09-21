@@ -18,15 +18,15 @@ public class GameLogic {
     private int gameboard[][];
     private int curPlayer = 0;
 
-    public int[][] getGameboard() {
-        return gameboard;
-    }
+    public int[][] getGameboard() { return gameboard; }
 
     public GameLogic(int curPlayer) {
         this.gameboard = new int[B_SIZE][B_SIZE];
         int[] tempRow = new int[B_SIZE];
         Arrays.fill(tempRow, -1);
-        Arrays.fill(gameboard, tempRow);
+        for (int i = 0; i < B_SIZE; i++) {
+            gameboard[i] = Arrays.copyOf(tempRow, tempRow.length);
+        }
         this.curPlayer = curPlayer;
     }
 
