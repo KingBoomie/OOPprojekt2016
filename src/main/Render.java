@@ -1,7 +1,7 @@
 package main;
 
 public class Render {
-	public void showBoard(int[][] board) {
+	static public void showBoard(int[][] board) {
 		String[] XO = {"X", "O", " "};
 		
 		for (int a = 0; a < 3; a++) {
