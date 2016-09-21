@@ -74,11 +74,9 @@ class Minmax {
                     } else if (new GameLogic(copy, turn).checkWinner() == Math.abs(turn - 1)) {
                         lst.add(new Integer[]{-1, i, j});
                     } else {
-                        int fla = 1;
+                        int fla = 0;
                         for (Integer[] a : Minmax.minmax(copy, Math.abs(turn - 1))) {
-                            if (-a[0] < fla) {
-                                fla = -a[0];
-                            }
+                            fla += a[0];
                         }
                         lst.add(new Integer[]{fla, i, j});
                     }
