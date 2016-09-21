@@ -23,9 +23,14 @@ class Medium{
     }
 }
 
-/*
 class Minmax{
+    static int sw(int a){
+        if (a == 1)
+            return 2;
+        else
+            return 1;
+    }
     static int[] minmax(int[][] board, int turn){
 
     }
-}*/
+}
