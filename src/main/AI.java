@@ -2,6 +2,9 @@ package main;
 
 import java.util.ArrayList;
 
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+
 /**
  * Created by oskar on 21/09/2016.
  *
@@ -14,13 +17,13 @@ public class AI {
     int turn;
     String difficulty;
 
-    int[] go() {
+    Integer[] go() {
         if (difficulty == "Medium") {
             return Medium.go(board, turn);
         } else if (difficulty == "Hard") {
             return Hard.go(board, turn);
         } else {
-            return new int[]{1};
+            return new Integer[]{1};
         }
     }
 
@@ -32,23 +35,23 @@ public class AI {
 }
 
 class Medium {
-    static int[] go(int[][] board, int turn) {
-        int a;
-        int b;
+    static Integer[] go(int[][] board, int turn) {
+        Integer a;
+        Integer b;
         while (true) {
             a = (int) Math.round(Math.random() * 3);
             b = (int) Math.round(Math.random() * 3);
             if (board[a][b] == -1) {
-                return new int[]{a, b};
+                return new Integer[]{a, b};
             }
         }
     }
 }
 
 class Hard {
-    static int[] go(int[][] board, int turn) {
+    static Integer[] go(int[][] board, int turn) {
         ArrayList<Integer[]> lst = Minmax.minmax(board, turn);
-        int fla = (int) -Double.POSITIVE_INFINITY;
+        int fla = Integer.MIN_VALUE;
         for (Integer[] a : lst) {
             if (a[0] > fla) {
                 fla = a[0];
@@ -61,7 +64,7 @@ class Hard {
             }
         }
         int a = (int) Math.round(Math.random() * val.size());
-        return new int[]{val.get(a)[1], val.get(a)[2]};
+        return new Integer[]{val.get(a)[1], val.get(a)[2]};
     }
 }
 
@@ -88,5 +91,54 @@ class Minmax {
             }
         }
         return lst;
+    }
+    static Integer[] negamax (GameLogic game, boolean maximisingPlayer) {
+        GameLogic thisRound = new GameLogic(game);
+        int curState = thisRound.checkWinner();
+        ArrayList<Integer[]> possibleMoves = thisRound.getPossibleMoves();
+
+        // Check if game end
+        if (curState != -1) {
+            return null;
+        }else if(possibleMoves.isEmpty()){ // tie
+            return null;
+        }
+
+        int bestValue = Integer.MIN_VALUE;
+        Integer[] bestPos = {-1, -1};
+
+        for (Integer[] pos : possibleMoves ) {
+            thisRound.move(pos);
+            int value = -negamaxImpl(thisRound, !maximisingPlayer);
+            if (value > bestValue) {
+                bestValue = value;
+                bestPos = pos;
+            }
+            bestValue = max(bestValue, value);
+        }
+        return bestPos;
+
+    }
+    private static int negamaxImpl (GameLogic game, boolean maximisingPlayer) {
+        GameLogic thisRound = new GameLogic(game);
+        int curState = thisRound.checkWinner();
+        ArrayList<Integer[]> possibleMoves = thisRound.getPossibleMoves();
+
+        // Check if game end
+        if (curState != -1) {
+            return curState * 2 - 1;
+        }else if(possibleMoves.isEmpty()){ // tie
+            return 0;
+        }
+
+
+        int bestValue = Integer.MIN_VALUE;
+        for (Integer[] pos : possibleMoves ) {
+            thisRound.move(pos);
+            int value = -negamaxImpl(thisRound, !maximisingPlayer);
+            bestValue = max(bestValue, value);
+        }
+        return bestValue;
+
     }
 }

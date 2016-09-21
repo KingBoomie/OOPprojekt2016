@@ -1,6 +1,5 @@
 package main;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -47,7 +46,12 @@ public class GameLogic {
         this.curPlayer = curPlayer;
     }
 
-    public int move(int[] p) {
+    public GameLogic(GameLogic game) {
+        this.gameboard = game.getGameboard();
+        this.curPlayer = game.curPlayer;
+    }
+
+    public int move(Integer[] p) {
         if (gameboard[p[0]][p[1]] != EMPTY) {
             throw new RuntimeException("Tried to play where somebody has played before");
         }
@@ -62,7 +66,7 @@ public class GameLogic {
         ArrayList<Integer[]> moves = new ArrayList<>();
         for (int y = 0; y < B_SIZE; y++) {
             for (int x = 0; x < B_SIZE; x++) {
-                if (gameboard[y][x] == 0) {
+                if (gameboard[y][x] == EMPTY) {
                     moves.add(new Integer[] {y, x});
                 }
             }
@@ -124,7 +128,7 @@ public class GameLogic {
             Integer x = winner(player1, player2);
             if (x != null) return x;
         }
-        return 0;
+        return EMPTY;
     }
 
     private Integer winner(int player1, int player2) {

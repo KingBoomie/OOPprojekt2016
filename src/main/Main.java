@@ -15,9 +15,9 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 300, 275));
 
         GameLogic game = new GameLogic(0);
-        game.move(new int[] {0, 0});
-        AI ai = new AI(game.getGameboard(), 1, "Hard");
-        game.move(ai.go());
+        game.move(new Integer[] {0, 0});
+
+        game.move(Minmax.negamax(game, true));
         Render.showBoard(game.getGameboard());
         
         primaryStage.show();
