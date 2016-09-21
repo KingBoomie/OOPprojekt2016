@@ -1,5 +1,6 @@
 package main;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -18,20 +19,31 @@ public class GameLogic {
     private int gameboard[][];
     private int curPlayer = 0;
 
-    public int[][] getGameboard() { return gameboard; }
+    public int[][] getGameboard() {
+        int[][] tempBoard = new int[B_SIZE][B_SIZE];
+        for (int y = 0; y < B_SIZE; y++) {
+            tempBoard[y] = Arrays.copyOf(gameboard[y], B_SIZE);
+        }
+        return tempBoard;
+    }
 
     public GameLogic(int curPlayer) {
         this.gameboard = new int[B_SIZE][B_SIZE];
-        int[] tempRow = new int[B_SIZE];
-        Arrays.fill(tempRow, -1);
-        for (int i = 0; i < B_SIZE; i++) {
-            gameboard[i] = Arrays.copyOf(tempRow, tempRow.length);
+
+        for (int y = 0; y < B_SIZE; y++) {
+            int[] tempRow = new int[B_SIZE];
+            for (int x = 0; x < B_SIZE; x++) {
+                gameboard[y][x] = -1;
+            }
         }
         this.curPlayer = curPlayer;
     }
 
     public GameLogic(int[][] board, int curPlayer) {
-        this.gameboard = board;
+        this.gameboard = new int[B_SIZE][B_SIZE];
+        for (int y = 0; y < B_SIZE; y++) {
+            this.gameboard[y] = Arrays.copyOf(board[y], B_SIZE);
+        }
         this.curPlayer = curPlayer;
     }
 
@@ -58,7 +70,7 @@ public class GameLogic {
         return moves;
     }
 
-    // returns 0 if no winner, 1 if player I, 2 if player II
+    // returns -1 if no winner,01 if player I, 1 if player II
     // pure function
     public int checkWinner() {
         // check horisontal
