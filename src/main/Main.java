@@ -15,17 +15,15 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 300, 275));
 
         GameLogic game = new GameLogic(0);
-        game.move(new int[] {0, 0});
-        System.out.println("000000000000000000");
-        System.out.println("llllllllllllllllll");
+        AI ai = new AI(game.getGameboard(), 0, "Hard");
+
         Render.showBoard(game.getGameboard());
         
-        //primaryStage.show();
+        primaryStage.show();
     }
 
 
     public static void main(String[] args) {
         launch(args);
-
     }
 }
