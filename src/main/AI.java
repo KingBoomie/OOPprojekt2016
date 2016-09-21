@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 /**
  * Created by oskar on 21/09/2016.
+ *
+ * Anna seis, käigu tegija ja raskusaste.
+ * Annab vastu koordinaadid käiguga.
+ * Kui anda viik, siis ei tee suurt midagi.
  */
 public class AI {
     int[][] board;
@@ -34,7 +38,7 @@ class Medium {
         while (true) {
             a = (int) Math.round(Math.random() * 3);
             b = (int) Math.round(Math.random() * 3);
-            if (board[a][b] == 0) {
+            if (board[a][b] == -1) {
                 return new int[]{a, b};
             }
         }
@@ -44,7 +48,7 @@ class Medium {
 class Hard {
     static int[] go(int[][] board, int turn) {
         ArrayList<Integer[]> lst = Minmax.minmax(board, turn);
-        int fla = -1;
+        int fla = (int) -Double.POSITIVE_INFINITY;
         for (Integer[] a : lst) {
             if (a[0] > fla) {
                 fla = a[0];
