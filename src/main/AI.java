@@ -9,10 +9,26 @@ public class AI {
     int[][] board;
     int turn;
     String difficulty;
+
+    int[] go() {
+        if (difficulty == "Medium") {
+            return Medium.go(board, turn);
+        } else if (difficulty == "Hard") {
+            return Hard.go(board, turn);
+        } else {
+            return new int[]{1};
+        }
+    }
+
+    public AI(int[][] board, int turn, String difficulty) {
+        this.board = board;
+        this.turn = turn;
+        this.difficulty = difficulty;
+    }
 }
 
 class Medium {
-    static int[] turn(int[][] board, int turn) {
+    static int[] go(int[][] board, int turn) {
         int a;
         int b;
         while (true) {
@@ -22,6 +38,26 @@ class Medium {
                 return new int[]{a, b};
             }
         }
+    }
+}
+
+class Hard {
+    static int[] go(int[][] board, int turn) {
+        ArrayList<Integer[]> lst = Minmax.minmax(board, turn);
+        int fla = -1;
+        for (Integer[] a : lst) {
+            if (a[0] > fla) {
+                fla = a[0];
+            }
+        }
+        ArrayList<Integer[]> val = new ArrayList<>();
+        for (Integer[] a : lst) {
+            if (a[0] == fla) {
+                val.add(a);
+            }
+        }
+        int a = (int) Math.round(Math.random() * val.size());
+        return new int[]{val.get(a)[1], val.get(a)[2]};
     }
 }
 
@@ -39,8 +75,8 @@ class Minmax {
                         lst.add(new Integer[]{-1, i, j});
                     } else {
                         int fla = 1;
-                        for (Integer[] a: Minmax.minmax(copy, Math.abs(turn-1))){
-                            if(-a[0]<fla){
+                        for (Integer[] a : Minmax.minmax(copy, Math.abs(turn - 1))) {
+                            if (-a[0] < fla) {
                                 fla = -a[0];
                             }
                         }
