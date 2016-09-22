@@ -25,19 +25,21 @@ public class Main extends Application {
         String[] playerDisplay = new String[] {"X", "Y"};
 
 
-
+        // Register all button views for mouse clicks
         Set<Node> buttonSet = root.lookupAll(".grid-button");
         buttonSet.forEach(node -> {
-
             Button button = (Button) node;
             int finalY = GridPane.getRowIndex(button);
             int finalX = GridPane.getColumnIndex(button);
+
             button.setOnAction(event -> {
-                game.move(new Integer[] {finalY, finalX});
+                game.move(new Integer[] {finalY-1, finalX});
                 button.setText(playerDisplay[game.getCurPlayer()]);
             });
             button.setText(Integer.toString(finalX + finalY * 3 - 2));
         });
+
+        // TODO Register keyboard input
 
 /*        for(;;){
             // TODO negamax isn't actually a good AI
