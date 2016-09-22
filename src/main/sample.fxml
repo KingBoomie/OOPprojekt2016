@@ -1,8 +1,108 @@
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.GridPane?>
+<?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<GridPane fx:controller="main.Controller"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import java.net.URL?>
+<GridPane alignment="TOP_CENTER" hgap="10" prefHeight="400.0" prefWidth="402.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controller">
+    <padding>
+        <Insets bottom="10" left="25" right="25" top="25" />
+    </padding>
+    <stylesheets>
+        <URL value="@style.css" />
+    </stylesheets>
+
+    <Text text="Trips traps trull" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">
+        <font>
+            <Font size="36.0" />
+        </font>
+    </Text>
+
+
+    <Button defaultButton="true" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: inherit; -fx-border-color: #cecece; -fx-border-radius: 1; -fx-border-width: 1; -fx-border-style: solid;" text="Y" textAlignment="CENTER" GridPane.rowIndex="1">
+        <opaqueInsets>
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+        </opaqueInsets>
+        <font>
+            <Font size="40.0" />
+        </font>
+    </Button>
+    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: inherit; -fx-border-color: #cecece; -fx-border-radius: 1; -fx-border-width: 1; -fx-border-style: solid;" text="Y" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <opaqueInsets>
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+        </opaqueInsets>
+        <font>
+            <Font size="40.0" />
+        </font>
+    </Button>
+    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: inherit; -fx-border-color: #cecece; -fx-border-radius: 1; -fx-border-width: 1; -fx-border-style: solid;" text="Y" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="1">
+        <opaqueInsets>
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+        </opaqueInsets>
+        <font>
+            <Font size="40.0" />
+        </font>
+    </Button>
+    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: inherit; -fx-border-color: #cecece; -fx-border-radius: 1; -fx-border-width: 1; -fx-border-style: solid;" text="Y" textAlignment="CENTER" GridPane.rowIndex="2">
+        <opaqueInsets>
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+        </opaqueInsets>
+        <font>
+            <Font size="40.0" />
+        </font>
+    </Button>
+    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: inherit; -fx-border-color: #cecece; -fx-border-radius: 1; -fx-border-width: 1; -fx-border-style: solid;" text="Y" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2">
+        <opaqueInsets>
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+        </opaqueInsets>
+        <font>
+            <Font size="40.0" />
+        </font>
+    </Button>
+    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: inherit; -fx-border-color: #cecece; -fx-border-radius: 1; -fx-border-width: 1; -fx-border-style: solid;" text="Y" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="2">
+        <opaqueInsets>
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+        </opaqueInsets>
+        <font>
+            <Font size="40.0" />
+        </font>
+    </Button>
+    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: inherit; -fx-border-color: #cecece; -fx-border-radius: 1; -fx-border-width: 1; -fx-border-style: solid;" text="Y" textAlignment="CENTER" GridPane.rowIndex="3">
+        <opaqueInsets>
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+        </opaqueInsets>
+        <font>
+            <Font size="40.0" />
+        </font>
+    </Button>
+    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: inherit; -fx-border-color: #cecece; -fx-border-radius: 1; -fx-border-width: 1; -fx-border-style: solid;" text="Y" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3">
+        <opaqueInsets>
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+        </opaqueInsets>
+        <font>
+            <Font size="40.0" />
+        </font>
+    </Button>
+    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: inherit; -fx-border-color: #cecece; -fx-border-radius: 1; -fx-border-width: 1; -fx-border-style: solid;" text="Y" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="3">
+        <opaqueInsets>
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+        </opaqueInsets>
+        <font>
+            <Font size="40.0" />
+        </font>
+    </Button>
+
+    <columnConstraints>
+        <ColumnConstraints />
+        <ColumnConstraints />
+        <ColumnConstraints />
+        <ColumnConstraints />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints fillHeight="false" percentHeight="10.0" valignment="TOP" vgrow="NEVER" />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+    </rowConstraints>
 </GridPane>

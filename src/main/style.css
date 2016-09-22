@@ -1,0 +1,8 @@
+
+.label {
+    -fx-text-fill: red;
+}
+
+.text-field {
+    -fx-border-radius: 0.5;
+}

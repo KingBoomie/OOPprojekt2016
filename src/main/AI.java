@@ -1,9 +1,9 @@
 package main;
 
-import java.util.ArrayList;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.Nullable;
 
-import static java.lang.Math.max;
-import static java.lang.Math.min;
+import java.util.ArrayList;
 
 /**
  * Created by oskar on 21/09/2016.
@@ -11,6 +11,8 @@ import static java.lang.Math.min;
  * Anna seis, käigu tegija ja raskusaste.
  * Annab vastu koordinaadid käiguga.
  * Kui anda viik, siis ei tee suurt midagi.
+ *
+ * negamax added by Kristjan
  */
 public class AI {
     int[][] board;
@@ -18,9 +20,9 @@ public class AI {
     String difficulty;
 
     Integer[] go() {
-        if (difficulty == "Medium") {
+        if (difficulty.equals("Medium") ) {
             return Medium.go(board, turn);
-        } else if (difficulty == "Hard") {
+        } else if (difficulty.equals("Hard")) {
             return Hard.go(board, turn);
         } else {
             return new Integer[]{1};
@@ -92,7 +94,9 @@ class Minmax {
         }
         return lst;
     }
-    static Integer[] negamax (GameLogic game, boolean maximisingPlayer) {
+    @Nullable
+    @Contract(pure = true)
+    static Integer[] negamax (GameLogic game, int maximisingPlayer) {
         GameLogic thisRound = new GameLogic(game);
         int curState = thisRound.checkWinner();
         ArrayList<Integer[]> possibleMoves = thisRound.getPossibleMoves();
@@ -109,36 +113,50 @@ class Minmax {
 
         for (Integer[] pos : possibleMoves ) {
             thisRound.move(pos);
-            int value = -negamaxImpl(thisRound, !maximisingPlayer);
+            int value = -negamaxImpl(thisRound, negate(maximisingPlayer));
+            System.out.printf("Value %d\n", value);
             if (value > bestValue) {
                 bestValue = value;
                 bestPos = pos;
             }
-            bestValue = max(bestValue, value);
         }
         return bestPos;
 
     }
-    private static int negamaxImpl (GameLogic game, boolean maximisingPlayer) {
+
+    @Contract(pure = true)
+    private static int negamaxImpl (GameLogic game, int maximisingPlayer) {
         GameLogic thisRound = new GameLogic(game);
-        int curState = thisRound.checkWinner();
+        int curWinner = thisRound.checkWinner();
         ArrayList<Integer[]> possibleMoves = thisRound.getPossibleMoves();
 
         // Check if game end
-        if (curState != -1) {
-            return curState * 2 - 1;
+        if (curWinner != -1) {
+            if (curWinner == maximisingPlayer) {
+                return 1;
+            } else {
+                return -1;
+            }
         }else if(possibleMoves.isEmpty()){ // tie
             return 0;
         }
 
 
-        int bestValue = Integer.MIN_VALUE;
+        int retValue = 0;
         for (Integer[] pos : possibleMoves ) {
             thisRound.move(pos);
-            int value = -negamaxImpl(thisRound, !maximisingPlayer);
-            bestValue = max(bestValue, value);
+            int value = -negamaxImpl(thisRound, negate(maximisingPlayer));
+            retValue += value;
         }
-        return bestValue;
+        return retValue;
 
     }
+
+    /**
+     * @param v useful only if v == 0 or 1
+     * @return boolean neg v
+     */
+    @Contract(pure = true)
+    private static int negate(int v) { return -(v -1); }
+
 }
