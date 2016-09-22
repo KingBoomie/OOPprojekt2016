@@ -6,3 +6,10 @@
 .text-field {
     -fx-border-radius: 0.5;
 }
+.grid-button {
+    -fx-background-color: inherit;
+    -fx-border-color: #cecece;
+    -fx-border-radius: 1;
+    -fx-border-width: 1;
+    -fx-border-style: solid;
+}

@@ -20,7 +20,7 @@
     </Text>
 
 
-    <Button defaultButton="true" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: inherit; -fx-border-color: #cecece; -fx-border-radius: 1; -fx-border-width: 1; -fx-border-style: solid;" text="Y" textAlignment="CENTER" GridPane.rowIndex="1">
+    <Button styleClass="grid-button" defaultButton="true" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#handleButtonAction" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="1">
         <opaqueInsets>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
         </opaqueInsets>
@@ -28,7 +28,7 @@
             <Font size="40.0" />
         </font>
     </Button>
-    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: inherit; -fx-border-color: #cecece; -fx-border-radius: 1; -fx-border-width: 1; -fx-border-style: solid;" text="Y" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
+    <Button styleClass="grid-button" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
         <opaqueInsets>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
         </opaqueInsets>
@@ -36,7 +36,7 @@
             <Font size="40.0" />
         </font>
     </Button>
-    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: inherit; -fx-border-color: #cecece; -fx-border-radius: 1; -fx-border-width: 1; -fx-border-style: solid;" text="Y" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="1">
+    <Button styleClass="grid-button" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="1">
         <opaqueInsets>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
         </opaqueInsets>
@@ -44,7 +44,7 @@
             <Font size="40.0" />
         </font>
     </Button>
-    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: inherit; -fx-border-color: #cecece; -fx-border-radius: 1; -fx-border-width: 1; -fx-border-style: solid;" text="Y" textAlignment="CENTER" GridPane.rowIndex="2">
+    <Button styleClass="grid-button" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="2">
         <opaqueInsets>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
         </opaqueInsets>
@@ -52,7 +52,7 @@
             <Font size="40.0" />
         </font>
     </Button>
-    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: inherit; -fx-border-color: #cecece; -fx-border-radius: 1; -fx-border-width: 1; -fx-border-style: solid;" text="Y" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2">
+    <Button styleClass="grid-button" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2">
         <opaqueInsets>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
         </opaqueInsets>
@@ -60,7 +60,7 @@
             <Font size="40.0" />
         </font>
     </Button>
-    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: inherit; -fx-border-color: #cecece; -fx-border-radius: 1; -fx-border-width: 1; -fx-border-style: solid;" text="Y" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="2">
+    <Button styleClass="grid-button" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="2">
         <opaqueInsets>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
         </opaqueInsets>
@@ -68,7 +68,7 @@
             <Font size="40.0" />
         </font>
     </Button>
-    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: inherit; -fx-border-color: #cecece; -fx-border-radius: 1; -fx-border-width: 1; -fx-border-style: solid;" text="Y" textAlignment="CENTER" GridPane.rowIndex="3">
+    <Button styleClass="grid-button" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="3">
         <opaqueInsets>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
         </opaqueInsets>
@@ -76,7 +76,7 @@
             <Font size="40.0" />
         </font>
     </Button>
-    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: inherit; -fx-border-color: #cecece; -fx-border-radius: 1; -fx-border-width: 1; -fx-border-style: solid;" text="Y" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3">
+    <Button styleClass="grid-button" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3">
         <opaqueInsets>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
         </opaqueInsets>
@@ -84,7 +84,7 @@
             <Font size="40.0" />
         </font>
     </Button>
-    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: inherit; -fx-border-color: #cecece; -fx-border-radius: 1; -fx-border-width: 1; -fx-border-style: solid;" text="Y" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="3">
+    <Button styleClass="grid-button" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="3">
         <opaqueInsets>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
         </opaqueInsets>

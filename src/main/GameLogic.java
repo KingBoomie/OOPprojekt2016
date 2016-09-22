@@ -30,6 +30,11 @@ public class GameLogic {
         return tempBoard;
     }
 
+    @Contract(pure = true)
+    public final int getCurPlayer() {
+        return curPlayer;
+    }
+
     public GameLogic(int curPlayer) {
         this.gameboard = new int[B_SIZE][B_SIZE];
 
