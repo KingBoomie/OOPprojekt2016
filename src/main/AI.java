@@ -1,7 +1,7 @@
 package main;
 
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.Nullable;
+//import org.jetbrains.annotations.Contract;
+//import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
@@ -94,8 +94,8 @@ class Minmax {
         }
         return lst;
     }
-    @Nullable
-    @Contract(pure = true)
+    //@Nullable
+    //@Contract(pure = true)
     static Integer[] negamax (GameLogic game, int maximisingPlayer) {
         GameLogic thisRound = new GameLogic(game);
         int curState = thisRound.checkWinner();
@@ -124,7 +124,7 @@ class Minmax {
 
     }
 
-    @Contract(pure = true)
+    //@Contract(pure = true)
     private static int negamaxImpl (GameLogic game, int maximisingPlayer) {
         GameLogic thisRound = new GameLogic(game);
         int curWinner = thisRound.checkWinner();
@@ -156,7 +156,7 @@ class Minmax {
      * @param v useful only if v == 0 or 1
      * @return boolean neg v
      */
-    @Contract(pure = true)
+    //@Contract(pure = true)
     private static int negate(int v) { return -(v -1); }
 
 }

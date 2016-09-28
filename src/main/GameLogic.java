@@ -1,7 +1,7 @@
 package main;
 
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.Nullable;
+//import org.jetbrains.annotations.Contract;
+//import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,7 +21,7 @@ public class GameLogic {
     private int gameboard[][];
     private int curPlayer = 0;
 
-    @Contract(pure = true)
+    //@Contract(pure = true)
     public int[][] getGameboard() {
         int[][] tempBoard = new int[B_SIZE][B_SIZE];
         for (int y = 0; y < B_SIZE; y++) {
@@ -30,7 +30,7 @@ public class GameLogic {
         return tempBoard;
     }
 
-    @Contract(pure = true)
+    //@Contract(pure = true)
     public final int getCurPlayer() {
         return curPlayer;
     }
@@ -72,8 +72,7 @@ public class GameLogic {
         return checkWinner();
     }
 
-    // pure function
-    @Contract(pure = true)
+    //@Contract(pure = true)
     public ArrayList<Integer[]> getPossibleMoves() {
         ArrayList<Integer[]> moves = new ArrayList<>();
         for (int y = 0; y < B_SIZE; y++) {
@@ -87,8 +86,7 @@ public class GameLogic {
     }
 
     // returns -1 if no winner,01 if player I, 1 if player II
-    // pure function
-    @Contract(pure = true)
+    //@Contract(pure = true)
     public int checkWinner() {
         // check horisontal
         for (int y = 0; y < B_SIZE; y++) {
@@ -144,8 +142,8 @@ public class GameLogic {
         return EMPTY;
     }
 
-    @Nullable
-    @Contract(pure = true)
+    //@Nullable
+    //@Contract(pure = true)
     private Integer winner(int player1, int player2) {
         if (player1 == B_SIZE) {
             return PLAYER1;
