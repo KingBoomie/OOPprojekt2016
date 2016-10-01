@@ -14,6 +14,7 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch(args);
 		// Something's broken.
+		// See töötab, kui Render.testRender() asub start methodi sees...
 		Render.testRender();
 	}
 	
