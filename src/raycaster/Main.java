@@ -13,9 +13,8 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		launch(args);
-		// Something's broken.
-		// See töötab, kui Render.testRender() asub start methodi sees...
-		Render.testRender();
+		//Okay, so the program doesn't continue from here.
+		System.out.println("Application closed.");
 	}
 	
 	@Override
@@ -27,6 +26,8 @@ public class Main extends Application {
 		stage.setScene(scene);
 		screen = canvas.getGraphicsContext2D().getPixelWriter();;
 		stage.show();
+		
+		Render.testRender();
 	}
 	
 }
