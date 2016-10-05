@@ -80,7 +80,7 @@ class ForceWin {
             }
         }
         int outIndex = ThreadLocalRandom.current().nextInt(0, goodMoves.coordinates.size());
-        AI.extract(goodMoves.coordinates);
+        //AI.extract(goodMoves.coordinates);
         return goodMoves.coordinates.get(outIndex);
     }
 }
