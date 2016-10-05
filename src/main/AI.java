@@ -10,47 +10,101 @@ import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by oskar on 21/09/2016.
- *
+ * <p>
  * Anna seis, käigu tegija ja raskusaste.
  * Annab vastu koordinaadid käiguga.
  * Kui anda viik, siis ei tee suurt midagi.
- *
+ * <p>
  * negamax added by Kristjan
  */
 public class AI {
-    String difficulty;
+    private static final int HARD = 3;
+    private static final int MEDIUM = 2;
+    private static final int EASY = 1;
+    private static final int SUPEREASY = -1;
+
+    private int difficulty;
     GameLogic game;
 
-    public AI(String difficulty, GameLogic game) {
-        this.difficulty = difficulty;
-        this.game = game;
+    // new AI().HARD().GO(game)
+    public AI HARD() {
+        this.difficulty = HARD;
+        return this;
     }
 
-    Integer[] go() {
-        if (difficulty.equals("Medium") ) {
+    public AI MEDIUM() {
+        this.difficulty = MEDIUM;
+        return this;
+    }
+
+    public AI EASY() {
+        this.difficulty = EASY;
+        return this;
+    }
+
+    public AI SUPEREASY() {
+        this.difficulty = SUPEREASY;
+        return this;
+    }
+
+    Integer[] GO(GameLogic game) {
+        if (difficulty == SUPEREASY)
+            return ForceWin.go(game);
+        else if (difficulty == EASY)
+            return Easy.go(game);
+        else if (difficulty == MEDIUM)
             return Medium.go(game);
-        } else if (difficulty.equals("Hard")) {
+        else if (difficulty == HARD)
             return Hard.go(game);
-        } else {
+        else
             throw new RuntimeException("Difficulty selected incorrectly");
+    }
+
+    public static void extract(ArrayList<Integer[]> list) {
+        for (Integer[] i : list) {
+            System.out.println(i[0] + " " + i[1]);
         }
     }
 
 }
 
+class ForceWin {
+    static Integer[] go(GameLogic game) {
+        Moves possibleMoves = Minmax.reverseMinmax(game);
+        Integer bestValue = Collections.max(possibleMoves.values);
+        Moves goodMoves = new Moves();
+        for (int i = 0; i < possibleMoves.values.size(); i++) {
+            if (possibleMoves.values.get(i) == bestValue) {
+                goodMoves.coordinates.add(possibleMoves.coordinates.get(i));
+                goodMoves.values.add(possibleMoves.values.get(i));
+            }
+        }
+        int outIndex = ThreadLocalRandom.current().nextInt(0, goodMoves.coordinates.size());
+        AI.extract(goodMoves.coordinates);
+        return goodMoves.coordinates.get(outIndex);
+    }
+}
+
+class Easy {
+    static Integer[] go(GameLogic game) {
+        Moves possibleMoves = Minmax.minmax(game);
+        Integer worstValue = Collections.min(possibleMoves.values);
+        Moves badMoves = new Moves();
+        for (int i = 0; i < possibleMoves.values.size(); i++) {
+            if (possibleMoves.values.get(i) == worstValue) {
+                badMoves.coordinates.add(possibleMoves.coordinates.get(i));
+                badMoves.values.add(possibleMoves.values.get(i));
+            }
+        }
+        int outIndex = ThreadLocalRandom.current().nextInt(0, badMoves.coordinates.size());
+        return badMoves.coordinates.get(outIndex);
+    }
+}
+
 class Medium {
     static Integer[] go(GameLogic game) {
-        int[][] board = game.getGameboard();
-        Integer a;
-        Integer b;
-        while (true) {
-            a = ThreadLocalRandom.current().nextInt(0, board[0].length);
-            b = ThreadLocalRandom.current().nextInt(0, board[1].length);
-            try {
-                game.move(new Integer[] {a, b});
-                return new Integer[] {a, b};
-            } catch (RuntimeException exception) {}
-        }
+        ArrayList<Integer[]> possibleMoves = game.getPossibleMoves();
+        return possibleMoves.get(ThreadLocalRandom.current().nextInt(0, possibleMoves.size()));
     }
 }
 
@@ -66,9 +120,11 @@ class Hard {
             }
         }
         int outIndex = ThreadLocalRandom.current().nextInt(0, goodMoves.coordinates.size());
+        //AI.extract(goodMoves.coordinates);
         return goodMoves.coordinates.get(outIndex);
     }
 }
+
 
 class Moves {
     ArrayList<Integer[]> coordinates;
@@ -107,7 +163,7 @@ class Minmax {
 
     /**
      * Useful for finding both best and worst moves
-     * Unoptimised, could be made faster for specifically best or worst moves with alpha-beta pruning.
+     * Unoptimised, could be made faster for specifically best or worst moves with alpha-beta pruning.i
      */
     static Moves minmax(GameLogic game) {
         Moves out = new Moves();
@@ -116,7 +172,7 @@ class Minmax {
         for (Integer[] i : posMoves) {
             GameLogic tempGame = new GameLogic(game);
             tempGame.move(i);
-            if (((Integer) tempGame.checkWinner()).equals(player)) { //TODO checkWinner is bugged
+            if (((Integer) tempGame.checkWinner()).equals(player)) {
                 out.coordinates.add(i);
                 out.values.add(1);
             } else if (((Integer) tempGame.checkWinner()).equals(negate(player))) {
@@ -135,9 +191,35 @@ class Minmax {
         return out;
     }
 
+    static Moves reverseMinmax(GameLogic game) {
+        Moves out = new Moves();
+        int player = game.getCurPlayer();
+        ArrayList<Integer[]> posMoves = game.getPossibleMoves();
+        for (Integer[] i : posMoves) {
+            GameLogic tempGame = new GameLogic(game);
+            tempGame.move(i);
+            if (((Integer) tempGame.checkWinner()).equals(player)) {
+                out.coordinates.add(i);
+                out.values.add(-1);
+            } else if (((Integer) tempGame.checkWinner()).equals(negate(player))) {
+                out.coordinates.add(i);
+                out.values.add(1);
+            } else if (tempGame.getPossibleMoves().isEmpty()) {
+                out.coordinates.add(i);
+                out.values.add(0);
+            } else {
+                Moves turnVals = reverseMinmax(tempGame);
+                int worstValue = -Collections.max(turnVals.values);
+                out.coordinates.add(i);
+                out.values.add(worstValue);
+            }
+        }
+        return out;
+    }
+
     //@Nullable
     //@Contract(pure = true)
-    static Integer[] negamax (GameLogic game, int maximisingPlayer) {
+    static Integer[] negamax(GameLogic game, int maximisingPlayer) {
         GameLogic thisRound = new GameLogic(game);
         int curState = thisRound.checkWinner();
         ArrayList<Integer[]> possibleMoves = thisRound.getPossibleMoves();
@@ -166,7 +248,7 @@ class Minmax {
     }
 
     //@Contract(pure = true)
-    private static int negamaxImpl (GameLogic game, int maximisingPlayer) {
+    private static int negamaxImpl(GameLogic game, int maximisingPlayer) {
         GameLogic thisRound = new GameLogic(game);
         int curWinner = thisRound.checkWinner();
         ArrayList<Integer[]> possibleMoves = thisRound.getPossibleMoves();
@@ -178,13 +260,13 @@ class Minmax {
             } else {
                 return -1;
             }
-        }else if(possibleMoves.isEmpty()){ // tie
+        } else if (possibleMoves.isEmpty()) { // tie
             return 0;
         }
 
 
         int retValue = 0;
-        for (Integer[] pos : possibleMoves ) {
+        for (Integer[] pos : possibleMoves) {
             thisRound.move(pos);
             int value = -negamaxImpl(thisRound, negate(maximisingPlayer));
             retValue += value;
@@ -209,6 +291,8 @@ class Minmax {
      * @return boolean neg v
      */
     //@Contract(pure = true)
-    private static int negate(int v) { return -(v -1); }
+    private static int negate(int v) {
+        return -(v - 1);
+    }
 
 }
