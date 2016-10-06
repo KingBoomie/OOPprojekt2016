@@ -93,6 +93,12 @@
         </font>
     </Button>
 
+    <Text text="Winner is X" textAlignment="CENTER" GridPane.rowIndex="4" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+        <font>
+            <Font size="36.0" />
+        </font>
+    </Text>
+
     <columnConstraints>
         <ColumnConstraints />
         <ColumnConstraints />

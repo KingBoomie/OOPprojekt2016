@@ -1,11 +1,13 @@
 package main;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -13,33 +15,47 @@ import java.util.Set;
 
 public class Main extends Application {
 
+    public interface GameEventListener {
+        void onMove(Integer[] position);
+    }
+
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         final int B_SIZE = 3;
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
 
-        primaryStage.setTitle("Tic-Tac-Toe");
-        primaryStage.setScene(new Scene(root, 400, 400));
+        Scene scene = new Scene(root, 400, 400);
+
 
         GameLogic game = new GameLogic(0);
+        GameLogic game2 = new GameLogic(new int[][] {{0, 1, 1}, {0, 0, 0}, {1, 0, 1}}, 1);
+        System.out.println(game2.checkWinner());
         String[] playerDisplay = new String[] {"X", "Y"};
+
+        // Register keyboard events
+        scene.setOnKeyReleased(event -> {
+            int num = (event.getCode().compareTo(KeyCode.DIGIT0) - 1 );
+            final int y = num / GameLogic.B_SIZE;
+            final int x = num % GameLogic.B_SIZE;
+            game.moveHandle(y, x, event);
+        });
 
 
         // Register all button views for mouse clicks
         Set<Node> buttonSet = root.lookupAll(".grid-button");
         buttonSet.forEach(node -> {
             Button button = (Button) node;
-            int finalY = GridPane.getRowIndex(button);
-            int finalX = GridPane.getColumnIndex(button);
+            final int finalY = GridPane.getRowIndex(button) -1;
+            final int finalX = GridPane.getColumnIndex(button);
 
-            button.setOnAction(event -> {
-                game.move(new Integer[] {finalY-1, finalX});
-                button.setText(playerDisplay[game.getCurPlayer()]);
-            });
-            button.setText(Integer.toString(finalX + finalY * 3 - 2));
+            button.addEventHandler(ActionEvent.ACTION, event -> game.moveHandle(finalY, finalX, event));
+
+            game.addEventHandler(finalY, finalX, event -> button.setText(playerDisplay[game.getCurPlayer()]));
+
+            button.setText(Integer.toString(finalX + finalY * 3 + 1));
         });
 
-        // TODO Register keyboard input
 
 /*        for(;;){
             // TODO negamax isn't actually a good AI
@@ -53,7 +69,8 @@ public class Main extends Application {
         }*/
 
 
-
+        primaryStage.setTitle("Tic-Tac-Toe");
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
 

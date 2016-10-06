@@ -3,8 +3,12 @@ package main;
 //import org.jetbrains.annotations.Contract;
 //import org.jetbrains.annotations.Nullable;
 
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
 
 import static java.lang.Math.abs;
 
@@ -12,7 +16,7 @@ import static java.lang.Math.abs;
  * Created by Kristjan Laht on 21-Sep-16.
  */
 public class GameLogic {
-    private static final int B_SIZE = 3;
+    public static final int B_SIZE = 3;
     private static final int EMPTY = -1;
     private static final int PLAYER1 = 0;
     private static final int PLAYER2 = 1;
@@ -20,6 +24,18 @@ public class GameLogic {
 
     private int gameboard[][];
     private int curPlayer = 0;
+    private PointHandlers handlers = new PointHandlers();
+    private AI ai;
+
+    public <T> void addEventHandler(int y, int x, Consumer<T> handler) {
+        handlers.addEventHandler(y, x, handler);
+    }
+
+    public void moveHandle(int y, int x, Object event) {
+        this.move(new Integer[]{y, x});
+        handlers.handle(y, x, event);
+    }
+
 
     //@Contract(pure = true)
     public int[][] getGameboard() {
@@ -60,6 +76,11 @@ public class GameLogic {
         this.curPlayer = game.curPlayer;
     }
 
+
+    /**
+     * @param 2D int array (y,x) where to move
+     * @return winner, if it game is over
+     */
     public int move(Integer[] p) {
         if (p == null)
             throw new RuntimeException("tried to move to pos null");
@@ -78,20 +99,20 @@ public class GameLogic {
         for (int y = 0; y < B_SIZE; y++) {
             for (int x = 0; x < B_SIZE; x++) {
                 if (gameboard[y][x] == EMPTY) {
-                    moves.add(new Integer[] {y, x});
+                    moves.add(new Integer[]{y, x});
                 }
             }
         }
         return moves;
     }
 
-    // returns -1 if no winner,01 if player I, 1 if player II
+    // returns -1 if no winner,0 if player I, 1 if player II
     //@Contract(pure = true)
     public int checkWinner() {
         // check horisontal
         for (int y = 0; y < B_SIZE; y++) {
-            int player1 = Arrays.stream(gameboard[y]).filter( cell -> cell == PLAYER1).sum();
-            int player2 = Arrays.stream(gameboard[y]).filter( cell -> cell == PLAYER2).sum();
+            int player1 = Arrays.stream(gameboard[y]).filter(cell -> cell == PLAYER1).map(i -> 1).sum();
+            int player2 = Arrays.stream(gameboard[y]).filter(cell -> cell == PLAYER2).map(i -> 1).sum();
 
             Integer x = winner(player1, player2);
             if (x != null) return x;
@@ -103,7 +124,7 @@ public class GameLogic {
             for (int y = 0; y < B_SIZE; y++) {
                 if (gameboard[y][x] == PLAYER1) {
                     player1++;
-                }else if(gameboard[y][x] == PLAYER2) {
+                } else if (gameboard[y][x] == PLAYER2) {
                     player2++;
                 }
             }
@@ -118,7 +139,7 @@ public class GameLogic {
             for (int i = 0; i < B_SIZE; i++) {
                 if (gameboard[i][i] == PLAYER1) {
                     player1++;
-                }else if(gameboard[i][i] == PLAYER2) {
+                } else if (gameboard[i][i] == PLAYER2) {
                     player2++;
                 }
             }
@@ -147,11 +168,55 @@ public class GameLogic {
     private Integer winner(int player1, int player2) {
         if (player1 == B_SIZE) {
             return PLAYER1;
-        }else if (player2 == B_SIZE) {
+        } else if (player2 == B_SIZE) {
             return PLAYER2;
         }
         return null;
     }
 
+}
+
+class Point2d {
+    int x, y;
+
+    public Point2d(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Point2d point2d = (Point2d) o;
+
+        if (x != point2d.x) return false;
+        return y == point2d.y;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = x;
+        result = 31 * result + y;
+        return result;
+    }
+}
+
+class PointHandlers {
+
+    Map<Point2d, Consumer> handles = new HashMap<>();
+
+    public <T> void addEventHandler (int y, int x, Consumer<T> handler) {
+        Point2d pos = new Point2d(x, y);
+        handles.put(pos, handler);
+    }
+    public void handle (int y, int x, Object event) {
+        Point2d pos = new Point2d(x, y);
+        if (!handles.containsKey(pos))
+            throw new RuntimeException("This position dosen't exist");
+        handles.get(pos).accept(event);
+    }
 
 }

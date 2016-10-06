@@ -94,8 +94,8 @@ class Minmax {
         }
         return lst;
     }
-    //@Nullable
-    //@Contract(pure = true)
+
+
     static Integer[] negamax (GameLogic game, int maximisingPlayer) {
         GameLogic thisRound = new GameLogic(game);
         int curState = thisRound.checkWinner();
