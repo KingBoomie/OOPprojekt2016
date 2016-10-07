@@ -20,7 +20,7 @@
     </Text>
 
 
-    <Button styleClass="grid-button" defaultButton="true" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#handleButtonAction" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="1">
+    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#handleButtonAction" styleClass="grid-button" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="1">
         <opaqueInsets>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
         </opaqueInsets>
@@ -28,7 +28,7 @@
             <Font size="40.0" />
         </font>
     </Button>
-    <Button styleClass="grid-button" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
+    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" styleClass="grid-button" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
         <opaqueInsets>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
         </opaqueInsets>
@@ -36,7 +36,7 @@
             <Font size="40.0" />
         </font>
     </Button>
-    <Button styleClass="grid-button" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="1">
+    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" styleClass="grid-button" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="1">
         <opaqueInsets>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
         </opaqueInsets>
@@ -44,7 +44,7 @@
             <Font size="40.0" />
         </font>
     </Button>
-    <Button styleClass="grid-button" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="2">
+    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" styleClass="grid-button" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="2">
         <opaqueInsets>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
         </opaqueInsets>
@@ -52,7 +52,7 @@
             <Font size="40.0" />
         </font>
     </Button>
-    <Button styleClass="grid-button" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2">
+    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" styleClass="grid-button" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2">
         <opaqueInsets>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
         </opaqueInsets>
@@ -60,7 +60,7 @@
             <Font size="40.0" />
         </font>
     </Button>
-    <Button styleClass="grid-button" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="2">
+    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" styleClass="grid-button" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="2">
         <opaqueInsets>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
         </opaqueInsets>
@@ -68,7 +68,7 @@
             <Font size="40.0" />
         </font>
     </Button>
-    <Button styleClass="grid-button" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="3">
+    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" styleClass="grid-button" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="3">
         <opaqueInsets>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
         </opaqueInsets>
@@ -76,7 +76,7 @@
             <Font size="40.0" />
         </font>
     </Button>
-    <Button styleClass="grid-button" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3">
+    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" styleClass="grid-button" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3">
         <opaqueInsets>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
         </opaqueInsets>
@@ -84,7 +84,7 @@
             <Font size="40.0" />
         </font>
     </Button>
-    <Button styleClass="grid-button" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="3">
+    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" styleClass="grid-button" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="3">
         <opaqueInsets>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
         </opaqueInsets>
@@ -93,11 +93,19 @@
         </font>
     </Button>
 
-    <Text text="Winner is X" textAlignment="CENTER" GridPane.rowIndex="4" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-        <font>
-            <Font size="36.0" />
-        </font>
-    </Text>
+   <VBox GridPane.columnSpan="2147483647" GridPane.rowIndex="4" GridPane.valignment="BOTTOM" id="game-settings">
+      <children>
+         <TextFlow prefHeight="200.0" prefWidth="200.0" textAlignment="CENTER" id="winner-text"/>
+         <ButtonBar prefHeight="40.0" prefWidth="200.0">
+           <buttons>
+               <ListView prefHeight="200.0" prefWidth="200.0" id="player0"/>
+               <ListView prefHeight="200.0" prefWidth="200.0" id="player1"/>
+             <Button mnemonicParsing="false" styleClass="grid-button" id="new-game-btn" text="Uus mäng" />
+           </buttons>
+         </ButtonBar>
+      </children>
+   </VBox>
+
 
     <columnConstraints>
         <ColumnConstraints />
@@ -110,5 +118,8 @@
         <RowConstraints />
         <RowConstraints />
         <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
     </rowConstraints>
 </GridPane>
