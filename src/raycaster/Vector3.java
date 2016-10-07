@@ -17,8 +17,20 @@ public class Vector3 {
 				);
 	}
 	
+	public Vector3 cross(Vector3 b) {
+		return new Vector3(
+				y * b.z - z * b.y,
+				z * b.x - x * b.z,
+				x * b.y - y * b.x
+				);
+	}
+	
 	public static double dot(Vector3 a, Vector3 b) {
 		return a.x * b.x + a.y * b.y + a.z * b.z;
+	}
+	
+	public double dot(Vector3 b) {
+		return x * b.x + y * b.y + z * b.z;
 	}
 	
 	public static Vector3 sub(Vector3 a, Vector3 b) {
@@ -29,11 +41,27 @@ public class Vector3 {
 				);
 	}
 	
+	public Vector3 sub(Vector3 b) {
+		return new Vector3(
+				x - b.x,
+				y - b.y,
+				z - b.z
+				);
+	}
+	
 	public static Vector3 add(Vector3 a, Vector3 b) {
 		return new Vector3(
 				a.x + b.x,
 				a.y + b.y,
 				a.z + b.z
+				);
+	}
+	
+	public Vector3 add(Vector3 b) {
+		return new Vector3(
+				x + b.x,
+				y + b.y,
+				z + b.z
 				);
 	}
 
@@ -42,6 +70,14 @@ public class Vector3 {
 				a.x * m,
 				a.y * m,
 				a.z * m
+				);
+	}
+	
+	public Vector3 mult(double m) {
+		return new Vector3(
+				x * m,
+				y * m,
+				z * m
 				);
 	}
 	

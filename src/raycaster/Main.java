@@ -29,8 +29,7 @@ public class Main extends Application {
 		screen = canvas.getGraphicsContext2D().getPixelWriter();;
 		stage.show();
 		
-		//Render.testRender(width, height);
-		Render.render(width, height);
+		Render.initRender(90, width, height);
 	}
 	
 }
