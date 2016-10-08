@@ -1,16 +1,19 @@
 package main;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.Set;
@@ -27,10 +30,11 @@ public class Main extends Application {
         final int B_SIZE = 3;
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
 
-        Scene scene = new Scene(root, 400, 600);
+        Scene scene = new Scene(root, 400, 570);
 
 
         GameLogic game = new GameLogic(0);
+        UiLogic UI = new UiLogic(game);
 
         // these games are for testing win conditions
         /*GameLogic game3 = new GameLogic(new int[][] {{0, 1, 1}, {0, 0, 0}, {1, 0, 1}}, 1);
@@ -38,14 +42,15 @@ public class Main extends Application {
         GameLogic game4 = new GameLogic(new int[][] {{0, 1, 0}, {0, 0, 1}, {0, 1 ,1}}, 1);
         System.out.println(game2.checkWinner());
         */
-        String[] playerDisplay = new String[] {"X", "Y"};
 
         // Register keyboard events
         scene.setOnKeyReleased(event -> {
             int num = (event.getCode().compareTo(KeyCode.DIGIT0) - 1 );
-            final int y = num / GameLogic.B_SIZE;
-            final int x = num % GameLogic.B_SIZE;
-            game.gameTurn(new Integer[]{y, x});
+            if (num >= 0 && num <= 9){
+                final int y = num / GameLogic.B_SIZE;
+                final int x = num % GameLogic.B_SIZE;
+                UI.gameTurn(new Integer[]{y, x});
+            }
         });
 
         // Register all button views for mouse clicks
@@ -55,57 +60,79 @@ public class Main extends Application {
             final int finalY = GridPane.getRowIndex(button) -1;
             final int finalX = GridPane.getColumnIndex(button);
 
-            button.addEventHandler(ActionEvent.ACTION, (event) -> game.gameTurn(new Integer[]{finalY, finalX}));
+            button.addEventHandler(ActionEvent.ACTION, (event) -> UI.gameTurn(new Integer[]{finalY, finalX}));
 
-            game.addEventHandler(GameLogic.Events.MOVE, new Integer[]{finalY, finalX}, () -> {
-                button.setText(playerDisplay[game.getCurPlayer()]);
+            UI.addEventHandler(UiLogic.PointEvents.MOVE, new Integer[]{finalY, finalX}, () -> {
+                button.setText(UiLogic.playerDisplay[ -(game.getCurPlayer() -1 )]);
                 button.setDisable(true);
-                button.getStyleClass().add(playerDisplay[game.getCurPlayer()]);
+                button.getStyleClass().add(UiLogic.playerDisplay[game.getCurPlayer()]);
             });
 
-            game.addEventHandler(GameLogic.Events.WINNER, new Integer[]{finalY, finalX}, () -> {
-                button.getStyleClass().removeAll(playerDisplay[0], playerDisplay[1]);
+            UI.addEventHandler(UiLogic.PointEvents.WINNER, new Integer[]{finalY, finalX}, () -> {
+                button.getStyleClass().removeAll(UiLogic.playerDisplay[0], UiLogic.playerDisplay[1]);
                 button.getStyleClass().add("winner");
             });
 
-            game.addEventHandler(GameLogic.Events.START, new Integer[]{finalY, finalX}, () -> {
+            UI.addEventHandler(UiLogic.PointEvents.START, new Integer[]{finalY, finalX}, () -> {
                 button.setText(Integer.toString(finalX + finalY * 3 + 1));
                 button.getStyleClass().clear();
-                button.getStyleClass().add("grid-button");
+                button.getStyleClass().addAll("grid-button", "button");
                 button.setDisable(false);
             });
 
         });
 
+
+//        settings.setManaged(true);
+
+        // TODO custom text on beating different AI difficulties
+        // TODO button and list style
+        // TODO block hover style
+
         // show / hide winner when needed
         VBox settings = (VBox) root.lookup("#game-settings");
-        settings.setManaged(true);
-        // TODO show text on game over
-        // TODO show other text on SB victory
-            // TODO custom text on beating different AI difficulties
-        // TODO populate player choosal lists with AI's
-            // TODO figure out how to store AI's
-            // TODO newgame button handler
-        // TODO logic for hiding/showing the options/(game over) menu
-        // TODO set better pref-s in fxml
-        // TODO check window size
-        // TODO button and list style
-        // TODO keyboard button for new game
-        // TODO block hover style
-        // FIXME player 0 starts with 'Y' not 'X'
-
-        ListView player0 = (ListView) settings.lookup("#player0");
-        ListView player1 = (ListView) settings.lookup("#player1");
+        settings.managedProperty().bind(settings.visibleProperty());
+        ChoiceBox playerSelection0 = (ChoiceBox) root.lookup("#player0");
+        ChoiceBox playerSelection1 = (ChoiceBox) root.lookup("#player1");
         //player0.setItems();
+        ObservableList<Player> players = FXCollections.observableArrayList(
+                new Player(),
+                new Player(new AI().SUPEREASY()),
+                new Player(new AI().EASY()),
+                new Player(new AI().MEDIUM()),
+                new Player(new AI().HARD())
+        );
+        playerSelection0.setItems(players);
+        playerSelection1.setItems(players);
 
-        Button newGame = (Button) settings.lookup("#new-game-btn");
-        game.addEventHandler(GameLogic.Events.START, new Integer[]{-1, -1}, () -> {
 
-            //game.startNewGame();
+        Button newGame = (Button) root.lookup("#new-game-btn");
+        newGame.setOnAction((event) -> {
+            Player player1 = (Player) playerSelection0.getValue();
+            Player player2 = (Player) playerSelection1.getValue();
+            settings.setVisible(false);
+            UI.startNewGame(player1, player2);
+        });
+        scene.setOnKeyPressed((event) -> {
+            if (event.getCode() == KeyCode.U) {
+                Player player1 = (Player) playerSelection0.getValue();
+                Player player2 = (Player) playerSelection1.getValue();
+                settings.setVisible(false);
+                UI.startNewGame(player1, player2);
+            }
         });
 
 
-
+        UI.addEventHandler(UiLogic.GeneralEvents.GAMEOVER, (winnerString) -> {
+            Text gameOver = (Text) settings.lookup("#game-over");
+            Text winner = (Text) settings.lookup("#winner");
+            if (winnerString != null) {
+                winner.setText(winnerString + " võitis");
+            } else {
+                winner.setText("Mitte keegi ei võitnud");
+            }
+            settings.setVisible(true);
+        });
 
 
         primaryStage.setTitle("Tic-Tac-Toe");

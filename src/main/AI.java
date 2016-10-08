@@ -66,6 +66,25 @@ public class AI {
         }
     }
 
+    @Override
+    public String toString() {
+        String difficulty = "";
+        switch (this.difficulty){
+            case SUPEREASY:
+                difficulty = "Väga lihtne";
+                break;
+            case EASY:
+                difficulty = "Lihtne";
+                break;
+            case MEDIUM:
+                difficulty = "Keskmine";
+                break;
+            case HARD:
+                difficulty = "Raske";
+                break;
+        }
+        return difficulty + " AI";
+    }
 }
 
 class ForceWin {
@@ -290,7 +309,6 @@ class Minmax {
      * @param v useful only if v == 0 or 1
      * @return boolean neg v
      */
-    //@Contract(pure = true)
     private static int negate(int v) {
         return -(v - 1);
     }

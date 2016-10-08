@@ -24,4 +24,12 @@ public class Player {
     public boolean isAI() {
         return playerTypeAI;
     }
+
+    @Override
+    public String toString() {
+        if (!isAI()) {
+            return "Mängija";
+        }
+        return ai.toString();
+    }
 }

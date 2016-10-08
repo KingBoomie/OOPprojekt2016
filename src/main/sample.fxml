@@ -5,121 +5,147 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <?import java.net.URL?>
-<GridPane alignment="TOP_CENTER" hgap="10" prefHeight="400.0" prefWidth="402.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controller">
+<GridPane alignment="TOP_CENTER" hgap="10" prefHeight="570.0" prefWidth="402.0" vgap="10"
+          xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="main.Controller">
     <padding>
-        <Insets bottom="10" left="25" right="25" top="25" />
+        <Insets bottom="10" left="25" right="25" top="25"/>
     </padding>
     <stylesheets>
-        <URL value="@style.css" />
+        <URL value="@style.css"/>
     </stylesheets>
 
-    <Text text="Trips traps trull" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">
+    <Text text="Trips traps trull" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.columnSpan="3"
+          GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">
         <font>
-            <Font size="36.0" />
+            <Font size="36.0"/>
         </font>
     </Text>
 
 
-    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#handleButtonAction" styleClass="grid-button" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="1">
+    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false"
+            styleClass="grid-button" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="1">
         <opaqueInsets>
-            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
         </opaqueInsets>
         <font>
-            <Font size="40.0" />
+            <Font size="40.0"/>
         </font>
     </Button>
-    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" styleClass="grid-button" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
+    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" styleClass="grid-button" textAlignment="CENTER"
+            GridPane.columnIndex="1" GridPane.rowIndex="1">
         <opaqueInsets>
-            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
         </opaqueInsets>
         <font>
-            <Font size="40.0" />
+            <Font size="40.0"/>
         </font>
     </Button>
-    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" styleClass="grid-button" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="1">
+    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" styleClass="grid-button" textAlignment="CENTER"
+            GridPane.columnIndex="2" GridPane.rowIndex="1">
         <opaqueInsets>
-            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
         </opaqueInsets>
         <font>
-            <Font size="40.0" />
+            <Font size="40.0"/>
         </font>
     </Button>
-    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" styleClass="grid-button" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="2">
+    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" styleClass="grid-button" textAlignment="CENTER"
+            GridPane.columnIndex="0" GridPane.rowIndex="2">
         <opaqueInsets>
-            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
         </opaqueInsets>
         <font>
-            <Font size="40.0" />
+            <Font size="40.0"/>
         </font>
     </Button>
-    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" styleClass="grid-button" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2">
+    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" styleClass="grid-button" textAlignment="CENTER"
+            GridPane.columnIndex="1" GridPane.rowIndex="2">
         <opaqueInsets>
-            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
         </opaqueInsets>
         <font>
-            <Font size="40.0" />
+            <Font size="40.0"/>
         </font>
     </Button>
-    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" styleClass="grid-button" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="2">
+    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" styleClass="grid-button" textAlignment="CENTER"
+            GridPane.columnIndex="2" GridPane.rowIndex="2">
         <opaqueInsets>
-            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
         </opaqueInsets>
         <font>
-            <Font size="40.0" />
+            <Font size="40.0"/>
         </font>
     </Button>
-    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" styleClass="grid-button" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="3">
+    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" styleClass="grid-button" textAlignment="CENTER"
+            GridPane.columnIndex="0" GridPane.rowIndex="3">
         <opaqueInsets>
-            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
         </opaqueInsets>
         <font>
-            <Font size="40.0" />
+            <Font size="40.0"/>
         </font>
     </Button>
-    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" styleClass="grid-button" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3">
+    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" styleClass="grid-button" textAlignment="CENTER"
+            GridPane.columnIndex="1" GridPane.rowIndex="3">
         <opaqueInsets>
-            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
         </opaqueInsets>
         <font>
-            <Font size="40.0" />
+            <Font size="40.0"/>
         </font>
     </Button>
-    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" styleClass="grid-button" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="3">
+    <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" styleClass="grid-button" textAlignment="CENTER"
+            GridPane.columnIndex="2" GridPane.rowIndex="3">
         <opaqueInsets>
-            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
         </opaqueInsets>
         <font>
-            <Font size="40.0" />
+            <Font size="40.0"/>
         </font>
     </Button>
 
-   <VBox GridPane.columnSpan="2147483647" GridPane.rowIndex="4" GridPane.valignment="BOTTOM" id="game-settings">
-      <children>
-         <TextFlow prefHeight="200.0" prefWidth="200.0" textAlignment="CENTER" id="winner-text"/>
-         <ButtonBar prefHeight="40.0" prefWidth="200.0">
-           <buttons>
-               <ListView prefHeight="200.0" prefWidth="200.0" id="player0"/>
-               <ListView prefHeight="200.0" prefWidth="200.0" id="player1"/>
-             <Button mnemonicParsing="false" styleClass="grid-button" id="new-game-btn" text="Uus mäng" />
-           </buttons>
-         </ButtonBar>
-      </children>
-   </VBox>
+    <VBox id="game-settings" maxWidth="300.0" prefHeight="136.0" prefWidth="290.0" GridPane.columnSpan="2147483647"
+          GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+        <children>
+            <Text id="game-over" text="Mäng läbi!" textAlignment="CENTER" wrappingWidth="300.703125">
+                <font>
+                    <Font size="32.0"/>
+                </font>
+            </Text>
+            <Text id="winner" text="Mitte keegi ei võitnud. " textAlignment="CENTER" wrappingWidth="300.890625">
+                <font>
+                    <Font size="18.0"/>
+                </font>
+            </Text>
+            <HBox alignment="TOP_CENTER" minHeight="30.0" prefHeight="40.0" prefWidth="300.0" spacing="20.0">
+                <ChoiceBox id="player0" prefHeight="30.0" prefWidth="150.0"/>
+                <ChoiceBox id="player1" prefHeight="30.0" prefWidth="150.0"/>
+
+            </HBox>
+            <Button id="new-game-btn" minHeight="30.0" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0"
+                    prefWidth="300.0" text="Uus mäng (U)" textAlignment="CENTER">
+                <VBox.margin>
+                    <Insets top="5.0"/>
+                </VBox.margin>
+            </Button>
+        </children>
+    </VBox>
 
 
     <columnConstraints>
-        <ColumnConstraints />
-        <ColumnConstraints />
-        <ColumnConstraints />
-        <ColumnConstraints />
+        <ColumnConstraints/>
+        <ColumnConstraints/>
+        <ColumnConstraints/>
+        <ColumnConstraints/>
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints fillHeight="false" percentHeight="10.0" valignment="TOP" vgrow="NEVER" />
-        <RowConstraints />
-        <RowConstraints />
-        <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
+        <RowConstraints fillHeight="false" percentHeight="10.0" valignment="TOP" vgrow="NEVER"/>
+        <RowConstraints/>
+        <RowConstraints/>
+        <RowConstraints/>
+        <RowConstraints/>
+        <RowConstraints/>
+        <RowConstraints/>
     </rowConstraints>
 </GridPane>

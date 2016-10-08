@@ -1,10 +1,7 @@
 package main;
 
-//import org.jetbrains.annotations.Contract;
-//import org.jetbrains.annotations.Nullable;
-
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -18,65 +15,6 @@ public class GameLogic {
 
     private int gameboard[][];
     private int curPlayer = 0;
-    private Player[] players;
-
-    public enum Events { MOVE, WINNER, START}
-    private Map<Events,PointHandlers> handlers = new EnumMap<>(Events.class);
-
-
-    public void addEventHandler(Events eventType, Integer[] pos, Runnable handler) {
-        handlers.putIfAbsent(eventType, new PointHandlers());
-        handlers.get(eventType).addEventHandler(pos, handler);
-    }
-
-    private void moveHandle(Integer[] pos) {
-        this.move(pos);
-        handlers.get(Events.MOVE).handle(pos);
-    }
-
-    public void gameTurn(Integer[] pos) {
-        // if game over
-        if (getPossibleMoves().isEmpty() || checkWinner() != -1){
-            System.out.println("Game Over");
-
-            ArrayList<Integer[]> winnerPositions = getWinnerPositions();
-
-            if (!winnerPositions.isEmpty()) {
-
-                System.out.println("Winner is " + checkWinner());
-
-                for (Integer[] winnerPos : winnerPositions) {
-                    handlers.get(Events.WINNER).handle(winnerPos);
-                }
-            }
-        } else {
-            if (players[curPlayer].isAI()) {
-                pos = players[curPlayer].GO(this);
-                moveHandle(pos);
-                gameTurn(null);
-
-            } else if (pos != null) {
-                moveHandle(pos);
-                gameTurn(null);
-            }
-        }
-    }
-    public void startNewGame(Player player0, Player player1) {
-        // init buttons
-        for (int y = 0; y < B_SIZE; y++) {
-            for (int x = 0; x < B_SIZE; x++) {
-                Integer[] pos = new Integer[]{y, x};
-                handlers.get(Events.START).handle(pos);
-            }
-        }
-        // init players
-        players = new Player[]{player0, player1};
-
-        // clear board
-        this.gameboard = getNewGameboard();
-    }
-
-
 
     public int[][] getGameboard() {
         int[][] tempBoard = new int[B_SIZE][B_SIZE];
@@ -86,7 +24,8 @@ public class GameLogic {
         return tempBoard;
     }
 
-    private int[][] getNewGameboard() {
+
+    public void clearGame() {
         int[][] gameboard = new int[B_SIZE][B_SIZE];
         for (int y = 0; y < B_SIZE; y++) {
             int[] tempRow = new int[B_SIZE];
@@ -94,19 +33,16 @@ public class GameLogic {
                 gameboard[y][x] = -1;
             }
         }
-        return gameboard;
+        this.gameboard = gameboard;
+        this.curPlayer = 0;
     }
 
     public final int getCurPlayer() {
         return curPlayer;
     }
 
-
-
     public GameLogic(int curPlayer) {
-        this.gameboard = getNewGameboard();
-
-
+        clearGame();
         this.curPlayer = curPlayer;
     }
 
@@ -122,7 +58,6 @@ public class GameLogic {
         this.gameboard = game.getGameboard();
         this.curPlayer = game.curPlayer;
     }
-
 
     /**
      * @param 2D int array (y,x) where to move
@@ -164,7 +99,7 @@ public class GameLogic {
         return gameboard[winnerPos[0]][winnerPos[1]];
     }
 
-    private ArrayList<Integer[]> getWinnerPositions () {
+    public ArrayList<Integer[]> getWinnerPositions () {
         // check horisontal
         for (int y = 0; y < B_SIZE; y++) {
             int player1 = Arrays.stream(gameboard[y]).filter(cell -> cell == PLAYER1).map(i -> 1).sum();
@@ -234,7 +169,7 @@ public class GameLogic {
                     .mapToObj( i -> new Integer[] {i, B_SIZE - i - 1})
                     .collect(Collectors.toCollection(ArrayList::new));
         }
-        return new ArrayList<Integer[]>();
+        return new ArrayList<>();
     }
     private Integer winner(int player1, int player2) {
         if (player1 == B_SIZE) {
@@ -262,8 +197,7 @@ class Point2d {
 
         Point2d point2d = (Point2d) o;
 
-        if (x != point2d.x) return false;
-        return y == point2d.y;
+        return x == point2d.x && y == point2d.y;
 
     }
 
@@ -275,19 +209,3 @@ class Point2d {
     }
 }
 
-class PointHandlers {
-
-    Map<Point2d, Runnable> handles = new HashMap<>();
-
-    public void addEventHandler (Integer[] pos_a, Runnable handler) {
-        Point2d pos = new Point2d(pos_a[1], pos_a[0]);
-        handles.put(pos, handler);
-    }
-
-    public void handle (Integer[] pos_a) {
-        Point2d pos = new Point2d(pos_a[1], pos_a[0]);
-        if (!handles.containsKey(pos))
-            throw new RuntimeException("This position dosen't exist");
-        handles.get(pos).run();
-    }
-}
