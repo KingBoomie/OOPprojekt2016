@@ -18,15 +18,21 @@ import java.util.concurrent.ThreadLocalRandom;
  * negamax added by Kristjan
  */
 public class AI {
-    private static final int HARD = 3;
-    private static final int MEDIUM = 2;
-    private static final int EASY = 1;
-    private static final int SUPEREASY = -1;
+    private static final int SUPERHARD = 2;
+    private static final int HARD = 1;
+    private static final int MEDIUM = 0;
+    private static final int EASY = -1;
+    private static final int SUPEREASY = -2;
 
     private int difficulty;
     GameLogic game;
 
     // new AI().HARD().GO(game)
+    public AI SUPERHARD() {
+        this.difficulty = SUPERHARD;
+        return this;
+    }
+
     public AI HARD() {
         this.difficulty = HARD;
         return this;
@@ -49,13 +55,15 @@ public class AI {
 
     Integer[] GO(GameLogic game) {
         if (difficulty == SUPEREASY)
-            return ForceWin.go(game);
+            return SuperEasy.go(game);
         else if (difficulty == EASY)
             return Easy.go(game);
         else if (difficulty == MEDIUM)
             return Medium.go(game);
         else if (difficulty == HARD)
             return Hard.go(game);
+        else if (difficulty == SUPERHARD)
+            return SuperHard.go(game);
         else
             throw new RuntimeException("Difficulty selected incorrectly");
     }
@@ -87,7 +95,7 @@ public class AI {
     }
 }
 
-class ForceWin {
+class SuperEasy {
     static Integer[] go(GameLogic game) {
         Moves possibleMoves = Minmax.reverseMinmax(game);
         Integer bestValue = Collections.max(possibleMoves.values);
@@ -128,6 +136,23 @@ class Medium {
 }
 
 class Hard {
+    static Integer[] go(GameLogic game) {
+        Moves possibleMoves = Minmax.reverseMinmax(game);
+        Integer worstValue = Collections.min(possibleMoves.values);
+        Moves badMoves = new Moves();
+        for (int i = 0; i < possibleMoves.values.size(); i++) {
+            if (possibleMoves.values.get(i) == worstValue) {
+                badMoves.coordinates.add(possibleMoves.coordinates.get(i));
+                badMoves.values.add(possibleMoves.values.get(i));
+            }
+        }
+        int outIndex = ThreadLocalRandom.current().nextInt(0, badMoves.coordinates.size());
+        AI.extract(badMoves.coordinates);
+        return badMoves.coordinates.get(outIndex);
+    }
+}
+
+class SuperHard {
     static Integer[] go(GameLogic game) {
         Moves possibleMoves = Minmax.minmax(game);
         Integer bestValue = Collections.max(possibleMoves.values);
