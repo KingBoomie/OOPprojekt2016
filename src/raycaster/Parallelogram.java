@@ -1,15 +1,16 @@
 package raycaster;
 
-public class Triangle {
-	Vector3 a, b, c;
+public class Parallelogram {
+	Vector3 a, b, c, e;
 	Vector3 ab, ac;
 	Plane plane;
 	double xx, xy, yy, d;
 	
-	Triangle(Vector3 a, Vector3 b, Vector3 c) {
+	Parallelogram(Vector3 a, Vector3 b, Vector3 c, Vector3 d) {
 		this.a = a;
 		this.b = b;
 		this.c = c;
+		this.e = d;
 		Update();
 	}
 	
@@ -25,7 +26,7 @@ public class Triangle {
 	
 	@Override
 	public String toString() {
-		return a + ", " + b + ", " + c;
+		return a + ", " + b + ", " + c + ", " + e;
 	}
-	
+
 }

@@ -3,20 +3,14 @@ package raycaster;
 public class Plane {
 	Vector3 plane, normal;
 	
-	Plane(Vector3 x, Vector3 y, Vector3 z) {
-		plane = x;
-		normal = Vector3.cross(
-				Vector3.sub(y, x),
-				Vector3.sub(z, x)
-				);
+	Plane(Vector3 a, Vector3 ab, Vector3 ac) {
+		plane = a;
+		normal = Vector3.cross(ab, ac);
 	}
 	
-	Plane(Triangle triangle) {
+	Plane (Triangle triangle) {
 		plane = triangle.a;
-		normal = Vector3.cross(
-				Vector3.sub(triangle.b, triangle.a),
-				Vector3.sub(triangle.c, triangle.a)
-				);
+		normal = Vector3.cross(triangle.b.sub(triangle.a), triangle.c.sub(triangle.a));
 	}
 	
 	@Override

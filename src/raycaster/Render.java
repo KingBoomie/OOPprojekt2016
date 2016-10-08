@@ -24,7 +24,7 @@ public class Render {
 	}
 	
 	public static void render(Vector3[][] dirs, int width, int height) {
-		Vector3 cameraPos = new Vector3(0, 0, 0); //Needs to be an actual moveable position.
+		Vector3 cameraPos = new Vector3(0, 0, 0); //Needs to be an actual movable position.
 		//Test
 		Triangle triangle = new Triangle(
 				new Vector3(-1, 0, 3),
