@@ -90,6 +90,9 @@ public class AI {
             case HARD:
                 difficulty = "Raske";
                 break;
+            case SUPERHARD:
+                difficulty = "Väga raske";
+                break;
         }
         return difficulty + " AI";
     }

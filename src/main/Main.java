@@ -100,7 +100,8 @@ public class Main extends Application {
                 new Player(new AI().SUPEREASY()),
                 new Player(new AI().EASY()),
                 new Player(new AI().MEDIUM()),
-                new Player(new AI().HARD())
+                new Player(new AI().HARD()),
+                new Player(new AI().SUPERHARD())
         );
         playerSelection0.setItems(players);
         playerSelection1.setItems(players);
