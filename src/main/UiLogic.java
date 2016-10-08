@@ -12,7 +12,7 @@ public class UiLogic {
     private Player[] players;
 
     enum PointEvents {MOVE, WINNER, START}
-    enum GeneralEvents {GAMEOVER, NEWGAME}
+    enum GeneralEvents {GAMEOVER}
     private Map<PointEvents,PointHandlers> pointHandlers = new EnumMap<>(PointEvents.class);
     private Map<GeneralEvents, Consumer> generalHandlers = new EnumMap<>(GeneralEvents.class);
 
@@ -39,7 +39,7 @@ public class UiLogic {
         // if game over
         if (gameLogic.getPossibleMoves().isEmpty() || gameLogic.checkWinner() != -1) {
             System.out.println("Game Over");
-            String winner = "Mängu pole alustatud";
+            String winner = null;
 
             ArrayList<Integer[]> winnerPositions = gameLogic.getWinnerPositions();
             if (!winnerPositions.isEmpty()) {
