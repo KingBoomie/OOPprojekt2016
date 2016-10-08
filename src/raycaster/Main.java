@@ -19,15 +19,17 @@ public class Main extends Application {
 	
 	@Override
 	public void start(Stage stage) {
+		int width = 480;
+		int height = 270;
 		stage.setTitle("Placeholder Title");
-		Canvas canvas = new Canvas(1280, 720);
+		Canvas canvas = new Canvas(width, height);
 		Group root = new Group(canvas);
-		Scene scene = new Scene(root, 1280, 720);
+		Scene scene = new Scene(root, width, height);
 		stage.setScene(scene);
 		screen = canvas.getGraphicsContext2D().getPixelWriter();;
 		stage.show();
 		
-		Render.testRender();
+		Render.initRender(90, width, height);
 	}
 	
 }
