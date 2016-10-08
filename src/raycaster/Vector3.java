@@ -81,6 +81,14 @@ public class Vector3 {
 				);
 	}
 	
+	public static double len(Vector3 a) {
+		return Math.sqrt(a.dot(a));
+	}
+	
+	public double len() {
+		return Math.sqrt(this.dot(this));
+	}
+	
 	@Override
 	public String toString() {
 		return x + ", " + y + ", " + z;
