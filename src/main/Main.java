@@ -88,9 +88,8 @@ public class Main extends Application {
 
 //        settings.setManaged(true);
 
-        // TODO custom text on beating different AI difficulties
+        // TODO custom sarcastic text on beating different AI difficulties
         // TODO button and list style
-        // TODO block hover style
 
         // show / hide winner when needed
         VBox settings = (VBox) root.lookup("#game-settings");
