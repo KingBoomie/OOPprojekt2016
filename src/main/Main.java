@@ -16,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.Arrays;
 import java.util.Set;
 
 public class Main extends Application {
@@ -49,7 +50,9 @@ public class Main extends Application {
             if (num >= 0 && num <= 9){
                 final int y = num / GameLogic.B_SIZE;
                 final int x = num % GameLogic.B_SIZE;
-                UI.gameTurn(new Integer[]{y, x});
+                if (game.getPossibleMoves().stream().anyMatch( p -> p[0] == y && p[1] == x)){
+                    UI.gameTurn(new Integer[]{y, x});
+                }
             }
         });
 

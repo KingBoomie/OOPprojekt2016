@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public class UiLogic {
-    public static final String[] playerDisplay = new String[] {"X", "Y"};
+    public static final String[] playerDisplay = new String[] {"X", "O"};
 
     private final GameLogic gameLogic;
     private Player[] players;

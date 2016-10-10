@@ -24,7 +24,7 @@
 
 
     <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false"
-            styleClass="grid-button" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="1">
+            styleClass="grid-button" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="1" disable="true">
         <opaqueInsets>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
         </opaqueInsets>
@@ -33,7 +33,7 @@
         </font>
     </Button>
     <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" styleClass="grid-button" textAlignment="CENTER"
-            GridPane.columnIndex="1" GridPane.rowIndex="1">
+            GridPane.columnIndex="1" GridPane.rowIndex="1" disable="true">
         <opaqueInsets>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
         </opaqueInsets>
@@ -42,7 +42,7 @@
         </font>
     </Button>
     <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" styleClass="grid-button" textAlignment="CENTER"
-            GridPane.columnIndex="2" GridPane.rowIndex="1">
+            GridPane.columnIndex="2" GridPane.rowIndex="1" disable="true">
         <opaqueInsets>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
         </opaqueInsets>
@@ -51,7 +51,7 @@
         </font>
     </Button>
     <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" styleClass="grid-button" textAlignment="CENTER"
-            GridPane.columnIndex="0" GridPane.rowIndex="2">
+            GridPane.columnIndex="0" GridPane.rowIndex="2" disable="true">
         <opaqueInsets>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
         </opaqueInsets>
@@ -60,7 +60,7 @@
         </font>
     </Button>
     <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" styleClass="grid-button" textAlignment="CENTER"
-            GridPane.columnIndex="1" GridPane.rowIndex="2">
+            GridPane.columnIndex="1" GridPane.rowIndex="2" disable="true">
         <opaqueInsets>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
         </opaqueInsets>
@@ -69,7 +69,7 @@
         </font>
     </Button>
     <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" styleClass="grid-button" textAlignment="CENTER"
-            GridPane.columnIndex="2" GridPane.rowIndex="2">
+            GridPane.columnIndex="2" GridPane.rowIndex="2" disable="true">
         <opaqueInsets>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
         </opaqueInsets>
@@ -78,7 +78,7 @@
         </font>
     </Button>
     <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" styleClass="grid-button" textAlignment="CENTER"
-            GridPane.columnIndex="0" GridPane.rowIndex="3">
+            GridPane.columnIndex="0" GridPane.rowIndex="3" disable="true">
         <opaqueInsets>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
         </opaqueInsets>
@@ -87,7 +87,7 @@
         </font>
     </Button>
     <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" styleClass="grid-button" textAlignment="CENTER"
-            GridPane.columnIndex="1" GridPane.rowIndex="3">
+            GridPane.columnIndex="1" GridPane.rowIndex="3" disable="true">
         <opaqueInsets>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
         </opaqueInsets>
@@ -96,7 +96,7 @@
         </font>
     </Button>
     <Button minHeight="100.0" minWidth="100.0" mnemonicParsing="false" styleClass="grid-button" textAlignment="CENTER"
-            GridPane.columnIndex="2" GridPane.rowIndex="3">
+            GridPane.columnIndex="2" GridPane.rowIndex="3" disable="true">
         <opaqueInsets>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
         </opaqueInsets>
