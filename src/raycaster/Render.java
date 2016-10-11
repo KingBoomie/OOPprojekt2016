@@ -12,6 +12,7 @@ public class Render {
 			for (int y = 0; y < height; y++) {
 				double yAngle = y * yfov / height - yfov / 2;
 				directions[x][y] = new Vector3(Math.tan(xAngle), Math.tan(yAngle), 1);
+				directions[x][y].normalize();
 			}
 		}
 		
@@ -39,6 +40,7 @@ public class Render {
 				new Vector3(-42, -24, -1337),
 				new Vector3(-42, -24, 1337)
 				);
+		Sphere sphere = new Sphere(new Vector3(10, -10, 100), 20);
 		Color color = new Color(128, 0, 256);
 		
 		for (int x = 0; x < width; x++) {
@@ -66,8 +68,11 @@ public class Render {
 				distance = CollisionCheck.rayParallelogram(ray, parallelogram); //Test
 				if (distance > 0) {
 					Main.screen.setArgb(x, y, color.Shade(distance)); //Temp
-					//distances.add(distance);
-					//colors.add(shape.color);
+				}
+				else distance = Double.MAX_VALUE; //Temp
+				distance = Math.min(CollisionCheck.raySphere(ray, sphere), distance); //Test
+				if (distance > 0) {
+					Main.screen.setArgb(x, y, color.Shade(distance)); //Temp
 				}
 				
 			}

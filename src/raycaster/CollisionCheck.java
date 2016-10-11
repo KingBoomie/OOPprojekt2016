@@ -64,4 +64,18 @@ public class CollisionCheck {
 		return -1;
 	}
 	
+	public static double raySphere(Ray ray, Sphere sphere) {
+		Vector3 d = Vector3.sub(sphere.centre, ray.origin);
+		double k1 = Vector3.dot(d, ray.direction);
+		if (k1 <= 0) {
+			return -1;
+		}
+		double k2 = Vector3.dot(d, d) - k1 * k1;
+		if (k2 > sphere.radius2) {
+			return -1;
+		}
+		double k = Math.sqrt(sphere.radius2 - k2);
+		return Math.min(k1 - k, k1 + k);
+	}
+	
 }

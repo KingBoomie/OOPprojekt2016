@@ -89,6 +89,13 @@ public class Vector3 {
 		return Math.sqrt(this.dot(this));
 	}
 	
+	public void normalize() {
+		double len = this.len();
+		this.x /= len;
+		this.y /= len;
+		this.z /= len;
+	}
+	
 	@Override
 	public String toString() {
 		return x + ", " + y + ", " + z;
