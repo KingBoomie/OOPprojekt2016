@@ -2,6 +2,7 @@ package raycaster;
 
 public class Parallelogram implements  Side{
 	Vector3 a, b, c, e;
+	Vector3[] vertices = {a, b, c, e};
 	Vector3 ab, ac;
 	Plane plane;
 	double xx, xy, yy, d;
