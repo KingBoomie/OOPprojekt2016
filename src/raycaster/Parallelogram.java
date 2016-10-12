@@ -1,6 +1,6 @@
 package raycaster;
 
-public class Parallelogram {
+public class Parallelogram implements  Side{
 	Vector3 a, b, c, e;
 	Vector3 ab, ac;
 	Plane plane;

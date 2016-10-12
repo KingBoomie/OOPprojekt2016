@@ -1,6 +1,6 @@
 package raycaster;
 
-public class Triangle {
+public class Triangle implements Side{
 	Vector3 a, b, c;
 	Vector3 ab, ac;
 	Plane plane;
