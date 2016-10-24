@@ -2,6 +2,7 @@ package raycaster;
 
 public class Render {
 	static Vector3[][] directions;
+	static Vector3 cameraPos = new Vector3(0, 0, 0);
 	
 	public static void initRender(double xfov, int width, int height) {
 		xfov = xfov / 180 * Math.PI;
@@ -18,10 +19,7 @@ public class Render {
 		}
 	}
 	
-	private static double distance;
-	
-	public static void render(int width, int height) {
-		Vector3 cameraPos = new Vector3(0, 0, 0); //Needs to be an actual movable position.
+	public static void render(int width, int height/*, Shape[] shapes*/) {
 		//Test
 		Triangle triangle = new Triangle(
 				new Vector3(-1, 0, 3),
@@ -36,38 +34,43 @@ public class Render {
 				);
 		Sphere sphere = new Sphere(new Vector3(10, -10, 100), 20);
 		Color color = new Color(128, 0, 256);
+		//Test end
 		
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				Ray ray = new Ray(cameraPos, directions[x][y]);
 				
-				//for (shape : shapes) {
-				//	for (triangle : shape.triSides) {
-				//		distance = CollisionCheck.rayTriangle(ray, triangle);
-				//		if (distance > 0) {
-				//			distances.add(distance);
-				//			colors.add(shape.color);
-				//		}
-				//	}
-				//	for (parallelogram : shape.quadSides) {
-				//		distance = CollisionCheck.rayParallelogram(ray, parallelogram);
-				//		if (distance > 0) {
-				//			distances.add(distance);
-				//			colors.add(shape.color);
-				//		}
-				//	}
-				//}
-				//distance = max(distances)
-				//Main.screen.setArgb(x, y, colors.get(distances.index(distance)).shade(distance))
-				distance = CollisionCheck.rayParallelogram(ray, parallelogram); //Test
+//				for (shape : shapes) {
+//					for (triangle : shape.triSides) {
+//						distance = CollisionCheck.rayTriangle(ray, triangle);
+//						if (distance > 0) {
+//							distances.add(distance);
+//							colors.add(shape.color);
+//						}
+//					}
+//					for (parallelogram : shape.quadSides) {
+//						distance = CollisionCheck.rayParallelogram(ray, parallelogram);
+//						if (distance > 0) {
+//							distances.add(distance);
+//							colors.add(shape.color);
+//						}
+//					}
+//				}
+//				distance = min(distances)
+//				Main.screen.setArgb(x, y, colors.get(distances.index(distance)).shade(distance))
+				
+				//Test
+				double distance;
+				distance = CollisionCheck.rayParallelogram(ray, parallelogram);
 				if (distance > 0) {
-					Main.screen.setArgb(x, y, color.Shade(distance)); //Temp
+					Main.screen.setArgb(x, y, color.Shade(distance));
 				}
-				else distance = Double.MAX_VALUE; //Temp
-				distance = Math.min(CollisionCheck.raySphere(ray, sphere), distance); //Test
+				else distance = Double.MAX_VALUE;
+				distance = Math.min(CollisionCheck.raySphere(ray, sphere), distance);
 				if (distance > 0) {
-					Main.screen.setArgb(x, y, color.Shade(distance)); //Temp
+					Main.screen.setArgb(x, y, color.Shade(distance));
 				}
+				//Test end
 				
 			}
 		}

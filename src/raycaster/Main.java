@@ -31,12 +31,14 @@ public class Main extends Application {
 		
 		Render.initRender(90, width, height);
 		
+		//Test
 		for (int i = 0; i < 11; i++) {
 			long startTime = System.nanoTime(); //Time test
 			Render.render(width, height);
 			long endTime = System.nanoTime(); //Time test
 			System.out.println((endTime - startTime) / 1000000); //Time test
 		}
+		//Test end
 	}
 	
 }
