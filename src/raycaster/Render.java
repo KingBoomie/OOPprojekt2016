@@ -1,11 +1,12 @@
 package raycaster;
 
 public class Render {
+	static Vector3[][] directions;
 	
 	public static void initRender(double xfov, int width, int height) {
 		xfov = xfov / 180 * Math.PI;
 		double yfov = 2 * Math.atan(Math.tan(xfov / 2) * height / width);
-		Vector3[][] directions = new Vector3[width][height]; //Pre-computed ray directions.
+		directions = new Vector3[width][height]; //Pre-computed ray directions.
 		//What if you turn around though?
 		for (int x = 0; x < width; x++) {
 			double xAngle = x * xfov / width - xfov / 2;
@@ -15,18 +16,11 @@ public class Render {
 				directions[x][y].normalize();
 			}
 		}
-		
-		for (int i = 0; i < 11; i++) {
-			long startTime = System.nanoTime(); //Time test
-			render(directions, width, height);
-			long endTime = System.nanoTime(); //Time test
-			System.out.println((endTime - startTime) / 1000000); //Time test
-		}
 	}
 	
 	private static double distance;
 	
-	public static void render(Vector3[][] dirs, int width, int height) {
+	public static void render(int width, int height) {
 		Vector3 cameraPos = new Vector3(0, 0, 0); //Needs to be an actual movable position.
 		//Test
 		Triangle triangle = new Triangle(
@@ -45,7 +39,7 @@ public class Render {
 		
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				Ray ray = new Ray(cameraPos, dirs[x][y]);
+				Ray ray = new Ray(cameraPos, directions[x][y]);
 				
 				//for (shape : shapes) {
 				//	for (triangle : shape.triSides) {

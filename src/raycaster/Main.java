@@ -30,6 +30,13 @@ public class Main extends Application {
 		stage.show();
 		
 		Render.initRender(90, width, height);
+		
+		for (int i = 0; i < 11; i++) {
+			long startTime = System.nanoTime(); //Time test
+			Render.render(width, height);
+			long endTime = System.nanoTime(); //Time test
+			System.out.println((endTime - startTime) / 1000000); //Time test
+		}
 	}
 	
 }
