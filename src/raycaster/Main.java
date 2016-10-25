@@ -39,6 +39,7 @@ public class Main extends Application {
 			System.out.println((endTime - startTime) / 1000000); //Time test
 		}
 		//Test end
+		
 	}
 	
 }
