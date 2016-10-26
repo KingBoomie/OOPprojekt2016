@@ -38,7 +38,7 @@ public class Main extends Application {
 		
 		Render.initRender(90, width, height);
 
-        final int AVERAGE_FRAMES_COUNT = 5; //Time test
+        final int AVERAGE_FRAMES_COUNT = 10; //Time test
         long[] renderTimes = new long[AVERAGE_FRAMES_COUNT]; //Time test
 
 		ArrayList<Shape> shapes = new ArrayList<>(Arrays.asList(
@@ -48,12 +48,6 @@ public class Main extends Application {
 								new Vector3(-42, 24, 1337),
 								new Vector3(-42, -24, -1337),
 								new Vector3(-42, -24, 1337)
-						),
-						new Parallelogram(
-								new Vector3(-42, -24, -1337),
-								new Vector3(42, 24, -1337),
-								new Vector3(42, 24, 1337),
-								new Vector3(42, -24, 1337)
 						)
 				}),
 				new Sphere(new Vector3(10, -10, 100), 20)
