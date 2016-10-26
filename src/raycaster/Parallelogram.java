@@ -1,6 +1,6 @@
 package raycaster;
 
-public class Parallelogram extends Shape {
+public class Parallelogram extends Side {
 	Vector3 a, b, c, e;
 	Vector3[] vertices = {a, b, c, e};
 	Vector3 ab, ac;

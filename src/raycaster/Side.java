@@ -3,5 +3,6 @@ package raycaster;
 /**
  * Created by oskar on 12/10/2016.
  */
-public interface Side {
+public class Side {
+    Vector3[] vertices;
 }
