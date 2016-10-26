@@ -11,7 +11,7 @@ public class FlatShape extends Shape {
     private Triangle[] triangles;
     private Vector3[] vertices;
 
-    public Parallelogram[] getParallelograms() {
+    public Parallelogram[] getQuads() {
         return parallelograms;
     }
 

@@ -42,20 +42,24 @@ public class Render {
 				index += 1;
 				
 				for (Shape shape : shapes) {
-					for (Triangle triangle : shape.triSides) {
-						distance = CollisionCheck.rayTriangle(ray, triangle);
-						if (distance > 0) {
-							distances.add(distance);
-							colors.add(shape.color);
+					if (shape instanceof FlatShape) {
+						FlatShape fShape = (FlatShape) shape;
+						for (Triangle triangle : fShape.getTriangles()) {
+							distance = CollisionCheck.rayTriangle(ray, triangle);
+							if (distance > 0) {
+								distances.add(distance);
+								colors.add(shape.color);
+							}
+						}
+						for (Parallelogram parallelogram : fShape.getQuads()) {
+							distance = CollisionCheck.rayParallelogram(ray, parallelogram);
+							if (distance > 0) {
+								distances.add(distance);
+								colors.add(shape.color);
+							}
 						}
 					}
-					for (Parallelogram parallelogram : shape.quadSides) {
-						distance = CollisionCheck.rayParallelogram(ray, parallelogram);
-						if (distance > 0) {
-							distances.add(distance);
-							colors.add(shape.color);
-						}
-					}
+
 				}
 				distance = Double.MAX_VALUE;
 				int iMax = -1;

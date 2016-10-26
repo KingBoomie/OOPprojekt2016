@@ -5,4 +5,5 @@ package raycaster;
  */
 public abstract class Shape {
 
+    Color color = new Color(0, 128, 128);
 }
