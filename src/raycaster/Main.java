@@ -10,11 +10,13 @@ import javafx.scene.image.PixelWriter;
 import javafx.stage.Stage;
 
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Main extends Application {
 	
 	public static PixelWriter screen;
+	static ArrayList<Shape> shapes = new ArrayList<>();
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -37,11 +39,10 @@ public class Main extends Application {
 		
 		Render.initRender(90, width, height);
 
-        final int AVERAGE_FRAMES_COUNT = 5;
-        long[] renderTimes = new long[AVERAGE_FRAMES_COUNT];
+        final int AVERAGE_FRAMES_COUNT = 5; //Benchmark
+        long[] renderTimes = new long[AVERAGE_FRAMES_COUNT]; //Benchmark
 
-
-
+        //Animation loop, note to self: Go through later.
 		AnimationTimer loop = new AnimationTimer() {
             int i = 0;
 			@Override
@@ -49,8 +50,8 @@ public class Main extends Application {
                 long startTime = System.nanoTime(); //Time test
 
                 // rendering
-                // Ignore the argument temorarily
-				byte[] buffer = Render.render(null);
+                // Ignore the argument temporarily
+				byte[] buffer = Render.render(shapes);
 				Main.screen.setPixels(0, 0, width, height, pixelFormat, buffer, 0, width * 3);
 
                 long endTime = System.nanoTime(); //Time test
@@ -66,7 +67,7 @@ public class Main extends Application {
 			}
 		};
 		loop.start();
-
+		//Animation loop end.
 
 	}
 	
