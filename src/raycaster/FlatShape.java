@@ -48,7 +48,7 @@ public class FlatShape extends Shape {
                 verticesSet.add(vertix);
             }
         }
-        vertices = (Vector3[]) verticesSet.toArray();
+        this.vertices = verticesSet.toArray(new Vector3[verticesSet.size()]);
     }
 
     /**

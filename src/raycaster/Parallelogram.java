@@ -2,7 +2,6 @@ package raycaster;
 
 public class Parallelogram extends Side {
 	Vector3 a, b, c, e;
-	Vector3[] vertices = {a, b, c, e};
 	Vector3 ab, ac;
 	Plane plane;
 	double xx, xy, yy, d;
@@ -12,6 +11,7 @@ public class Parallelogram extends Side {
 		this.b = b;
 		this.c = c;
 		this.e = d;
+		this.vertices = new Vector3[] {a, b, c, e};
 		Update();
 	}
 	

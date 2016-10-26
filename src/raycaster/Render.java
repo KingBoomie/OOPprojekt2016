@@ -33,31 +33,43 @@ public class Render {
 		double distance;
 		int index = 0;
 		int byteIndex = 0;
-		ArrayList<Double> distances = new ArrayList<>();
-		ArrayList<Color> colors = new ArrayList<>();
+
 		
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
 				Ray ray = new Ray(cameraPos, directions[index]);
 				index += 1;
-				
+
+                ArrayList<Double> distances = new ArrayList<>();
+                ArrayList<Color> colors = new ArrayList<>();
+
 				for (Shape shape : shapes) {
 					if (shape instanceof FlatShape) {
 						FlatShape fShape = (FlatShape) shape;
-						for (Triangle triangle : fShape.getTriangles()) {
-							distance = CollisionCheck.rayTriangle(ray, triangle);
-							if (distance > 0) {
-								distances.add(distance);
-								colors.add(shape.color);
+
+						Triangle[] triangles = fShape.getTriangles();
+						if (triangles != null) {
+							for (Triangle triangle : triangles) {
+								distance = CollisionCheck.rayTriangle(ray, triangle);
+								if (distance > 0) {
+									distances.add(distance);
+									colors.add(shape.color);
+								}
 							}
 						}
-						for (Parallelogram parallelogram : fShape.getQuads()) {
-							distance = CollisionCheck.rayParallelogram(ray, parallelogram);
-							if (distance > 0) {
-								distances.add(distance);
-								colors.add(shape.color);
+
+						Parallelogram[] quads = fShape.getQuads();
+						if (quads != null){
+							for (Parallelogram parallelogram : quads) {
+								distance = CollisionCheck.rayParallelogram(ray, parallelogram);
+								if (distance > 0) {
+									distances.add(distance);
+									colors.add(shape.color);
+								}
 							}
 						}
+					}else if (shape instanceof Sphere){
+						// TODO
 					}
 
 				}

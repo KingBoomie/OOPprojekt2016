@@ -2,7 +2,6 @@ package raycaster;
 
 public class Triangle extends Side{
 	Vector3 a, b, c;
-	Vector3[] vertices = {a, b, c};
 	Vector3 ab, ac;
 	Plane plane;
 	double xx, xy, yy, d;
@@ -11,6 +10,7 @@ public class Triangle extends Side{
 		this.a = a;
 		this.b = b;
 		this.c = c;
+		this.vertices = new Vector3[] {a, b, c};
 		Update();
 	}
 	
