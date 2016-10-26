@@ -30,76 +30,48 @@ public class Render {
 	}
 	
 	public static byte[] render(ArrayList<Shape> shapes) {
-		//Test
-		Triangle triangle = new Triangle(
-				new Vector3(-1, 0, 3),
-				new Vector3(1, 1, 3),
-				new Vector3(1, -1, 3)
-				);
-		Parallelogram parallelogram = new Parallelogram(
-				new Vector3(-42, 24, -1337),
-				new Vector3(-42, 24, 1337),
-				new Vector3(-42, -24, -1337),
-				new Vector3(-42, -24, 1337)
-				);
-		Sphere sphere = new Sphere(new Vector3(10, -10, 100), 20);
-		Color color = new Color(127, 0, 255);
-		//Test end
-		
+		double distance;
 		int index = 0;
 		int byteIndex = 0;
+		ArrayList<Double> distances = new ArrayList<>();
+		ArrayList<Color> colors = new ArrayList<>();
 		
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
 				Ray ray = new Ray(cameraPos, directions[index]);
 				index += 1;
 				
-//				for (shape : shapes) {
-//					for (triangle : shape.triSides) {
-//						distance = CollisionCheck.rayTriangle(ray, triangle);
-//						if (distance > 0) {
-//							distances.add(distance);
-//							colors.add(shape.color);
-//						}
-//					}
-//					for (parallelogram : shape.quadSides) {
-//						distance = CollisionCheck.rayParallelogram(ray, parallelogram);
-//						if (distance > 0) {
-//							distances.add(distance);
-//							colors.add(shape.color);
-//						}
-//					}
-//				}
-//				distance = min(distances)
-//				Main.screen.setArgb(x, y, colors.get(distances.index(distance)).shade(distance))
-				
-				//Test
-				double distance;
-				distance = CollisionCheck.rayParallelogram(ray, parallelogram);
-				if (distance > 0) {
+				for (Shape shape : shapes) {
+					for (Triangle triangle : shape.triSides) {
+						distance = CollisionCheck.rayTriangle(ray, triangle);
+						if (distance > 0) {
+							distances.add(distance);
+							colors.add(shape.color);
+						}
+					}
+					for (Parallelogram parallelogram : shape.quadSides) {
+						distance = CollisionCheck.rayParallelogram(ray, parallelogram);
+						if (distance > 0) {
+							distances.add(distance);
+							colors.add(shape.color);
+						}
+					}
+				}
+				distance = Double.MAX_VALUE;
+				int iMax = -1;
+				for (int i = 0; i < distances.size(); i++) {
+					if (distance < distances.get(i)) {
+						iMax = i;
+						distance = distances.get(i);
+					}
+				}
+				if (iMax > 0) {
 					for (int i = 0; i < 3; i++) {
-						byte[] shade = color.Shade(distance);
+						byte[] shade = colors.get(iMax).Shade(distance);
 						buffer[byteIndex] = shade[i];
 						byteIndex += 1;
 					}
 				}
-				else {
-					distance = Double.MAX_VALUE;
-					for (int i = 0; i < 3; i++) {
-						buffer[byteIndex] = 0;
-						byteIndex += 1;
-					}
-				}
-				distance = Math.min(CollisionCheck.raySphere(ray, sphere), distance);
-				if (distance > 0) {
-					byteIndex -= 3; //Very temporary bandaid!
-					for (int i = 0; i < 3; i++) {
-						byte[] shade = color.Shade(distance);
-						buffer[byteIndex] = shade[i];
-						byteIndex += 1;
-					}
-				}
-				//Test end
 				
 			}
 		}
