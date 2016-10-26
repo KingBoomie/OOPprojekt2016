@@ -1,5 +1,7 @@
 package raycaster;
 
+import java.util.ArrayList;
+
 public class Render {
 	static Vector3[] directions;
 	static Vector3 cameraPos = new Vector3(0, 0, 0);
@@ -29,7 +31,7 @@ public class Render {
 		}
 	}
 	
-	public static byte[] render(/*, Shape[] shapes*/) {
+	public static byte[] render( ArrayList<Shape>[] shapes) {
 		//Test
 		Triangle triangle = new Triangle(
 				new Vector3(-1, 0, 3),
@@ -100,6 +102,12 @@ public class Render {
 					}
 				}
 				//Test end
+
+                /*Shape closest;
+                double closestDist = Double.MAX_VALUE;
+                for (Shape shape : shapes) {
+
+                }*/
 				
 			}
 		}

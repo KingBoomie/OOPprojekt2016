@@ -39,6 +39,9 @@ public class Main extends Application {
 
         final int AVERAGE_FRAMES_COUNT = 5;
         long[] renderTimes = new long[AVERAGE_FRAMES_COUNT];
+
+
+
 		AnimationTimer loop = new AnimationTimer() {
             int i = 0;
 			@Override
@@ -46,7 +49,8 @@ public class Main extends Application {
                 long startTime = System.nanoTime(); //Time test
 
                 // rendering
-				byte[] buffer = Render.render();
+                // Ignore the argument temorarily
+				byte[] buffer = Render.render(null);
 				Main.screen.setPixels(0, 0, width, height, pixelFormat, buffer, 0, width * 3);
 
                 long endTime = System.nanoTime(); //Time test
@@ -62,6 +66,8 @@ public class Main extends Application {
 			}
 		};
 		loop.start();
+
+
 	}
 	
 }

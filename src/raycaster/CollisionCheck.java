@@ -77,5 +77,14 @@ public class CollisionCheck {
 		double k = Math.sqrt(sphere.radius2 - k2);
 		return Math.min(k1 - k, k1 + k);
 	}
+
+	public static double check(Ray ray, Shape shape) {
+		if (shape instanceof Sphere) {
+			return raySphere(ray, (Sphere) shape);
+		} else if (shape instanceof Parallelogram) {
+			return rayParallelogram(ray, (Parallelogram) shape);
+		}
+		return -1;
+	}
 	
 }

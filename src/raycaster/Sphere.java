@@ -1,6 +1,6 @@
 package raycaster;
 
-public class Sphere {
+public class Sphere extends Shape {
 	Vector3 centre;
 	double radius, radius2;
 	
