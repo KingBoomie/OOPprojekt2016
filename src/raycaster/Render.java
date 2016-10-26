@@ -31,7 +31,7 @@ public class Render {
 		}
 	}
 	
-	public static byte[] render( ArrayList<Shape>[] shapes) {
+	public static byte[] render( ArrayList<Shape> shapes) {
 		//Test
 		Triangle triangle = new Triangle(
 				new Vector3(-1, 0, 3),
