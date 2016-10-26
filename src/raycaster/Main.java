@@ -39,35 +39,34 @@ public class Main extends Application {
 		
 		Render.initRender(90, width, height);
 
-        final int AVERAGE_FRAMES_COUNT = 5; //Benchmark
-        long[] renderTimes = new long[AVERAGE_FRAMES_COUNT]; //Benchmark
+        final int AVERAGE_FRAMES_COUNT = 5; //Time test
+        long[] renderTimes = new long[AVERAGE_FRAMES_COUNT]; //Time test
 
-        //Animation loop, note to self: Go through later.
 		AnimationTimer loop = new AnimationTimer() {
-            int i = 0;
+            int i = 0; //Time test
 			@Override
 			public void handle(long now) {
                 long startTime = System.nanoTime(); //Time test
 
-                // rendering
-                // Ignore the argument temporarily
+                // Rendering
 				byte[] buffer = Render.render(shapes);
 				Main.screen.setPixels(0, 0, width, height, pixelFormat, buffer, 0, width * 3);
-
-                long endTime = System.nanoTime(); //Time test
-
+				
+				//Time test
+                long endTime = System.nanoTime();
                 renderTimes[i] = endTime - startTime;
                 i++;
                 if (i == AVERAGE_FRAMES_COUNT) {
                     long avgTime = Arrays.stream(renderTimes).sum() / AVERAGE_FRAMES_COUNT;
-                    System.out.printf("Rendering took %d ms, averaged over %d frames\n", avgTime / 1000000, AVERAGE_FRAMES_COUNT); //Time test
+                    System.out.printf("Rendering took %d ms, averaged over %d frames\n", avgTime / 1000000, AVERAGE_FRAMES_COUNT);
                     i = 0;
                 }
+                //Time test end
 
 			}
 		};
+		
 		loop.start();
-		//Animation loop end.
 
 	}
 	
