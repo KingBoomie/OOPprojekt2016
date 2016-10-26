@@ -1,16 +1,17 @@
 package raycaster;
 
-import java.nio.ByteBuffer;
-
-import javafx.scene.image.PixelFormat;
-
 public class Render {
 	static Vector3[] directions;
 	static Vector3 cameraPos = new Vector3(0, 0, 0);
-	static PixelFormat<ByteBuffer> pixelFormat = PixelFormat.getByteRgbInstance();
 	static byte[] buffer;
+	static int width;
+	static int height;
+
 	
 	public static void initRender(double xfov, int width, int height) {
+		Render.width = width;
+		Render.height = height;
+
 		buffer = new byte[width * height * 3];
 		
 		xfov = xfov / 180 * Math.PI;
@@ -28,7 +29,7 @@ public class Render {
 		}
 	}
 	
-	public static void render(int width, int height/*, Shape[] shapes*/) {
+	public static byte[] render(/*, Shape[] shapes*/) {
 		//Test
 		Triangle triangle = new Triangle(
 				new Vector3(-1, 0, 3),
@@ -103,8 +104,7 @@ public class Render {
 			}
 		}
 		
-		Main.screen.setPixels(0, 0, width, height, pixelFormat, buffer, 0, width * 3);
-		
+		return buffer;
 	}
 
 }
