@@ -69,11 +69,7 @@ public class Render {
 							}
 						}
 					}else if (shape instanceof Sphere){
-						distance = CollisionCheck.raySphere(ray, (Sphere) shape);
-                        if (distance > 0) {
-                            distances.add(distance);
-                            colors.add(shape.color);
-                        }
+						// TODO
 					}
 
 				}
