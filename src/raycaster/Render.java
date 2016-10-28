@@ -1,6 +1,7 @@
 package raycaster;
 
 import java.util.ArrayList;
+import java.util.DoubleSummaryStatistics;
 
 public class Render {
 	static Vector3[] directions;
@@ -40,8 +41,8 @@ public class Render {
 				Ray ray = new Ray(cameraPos, directions[index]);
 				index += 1;
 
-                ArrayList<Double> distances = new ArrayList<>();
-                ArrayList<Color> colors = new ArrayList<>();
+				double closestDistance = Double.MAX_VALUE;
+                Color closestColor = new Color(0, 0, 0);
 
 				for (Shape shape : shapes) {
 					if (shape instanceof FlatShape) {
@@ -51,9 +52,9 @@ public class Render {
 						if (triangles != null) {
 							for (Triangle triangle : triangles) {
 								distance = CollisionCheck.rayTriangle(ray, triangle);
-								if (distance > 0) {
-									distances.add(distance);
-									colors.add(shape.color);
+								if (distance < closestDistance) {
+									closestDistance = distance;
+									closestColor = shape.color;
 								}
 							}
 						}
@@ -62,37 +63,27 @@ public class Render {
 						if (quads != null){
 							for (Parallelogram parallelogram : quads) {
 								distance = CollisionCheck.rayParallelogram(ray, parallelogram);
-								if (distance > 0) {
-									distances.add(distance);
-									colors.add(shape.color);
+								if (distance < closestDistance) {
+									closestDistance = distance;
+									closestColor = shape.color;
 								}
 							}
 						}
-					}else if (shape instanceof Sphere){
+					} else if (shape instanceof Sphere){
 						distance = CollisionCheck.raySphere(ray, (Sphere) shape);
-                        if (distance > 0) {
-                            distances.add(distance);
-                            colors.add(shape.color);
-                        }
+						if (distance < closestDistance && distance != CollisionCheck.noCollision) {
+							closestDistance = distance;
+							closestColor = shape.color;
+						}
 					}
 
 				}
-				distance = Double.MAX_VALUE;
-				int iMax = -1;
-				for (int i = 0; i < distances.size(); i++) {
-					if (distance < distances.get(i)) {
-						iMax = i;
-						distance = distances.get(i);
-					}
+
+				byte[] shade = closestColor.Shade(closestDistance);
+				for (int i = 0; i < 3; i++) {
+					buffer[byteIndex] = shade[i];
+					byteIndex += 1;
 				}
-				if (iMax > 0) {
-					for (int i = 0; i < 3; i++) {
-						byte[] shade = colors.get(iMax).Shade(distance);
-						buffer[byteIndex] = shade[i];
-						byteIndex += 1;
-					}
-				}
-				
 			}
 		}
 		

@@ -1,7 +1,11 @@
 package raycaster;
 
+import java.util.DoubleSummaryStatistics;
+
 public class CollisionCheck {
-	
+
+	public static final double noCollision = Double.MAX_VALUE;
+
 	public static double rayTriangle(Ray ray, Triangle triangle) {
 		double d = Vector3.dot(ray.direction, triangle.plane.normal);
 		
@@ -24,13 +28,13 @@ public class CollisionCheck {
 					return length.len();
 				}
 				
-				return -1;
+				return noCollision;
 			}
 			
-			return -1;
+			return noCollision;
 		}
 		
-		return -1;
+		return noCollision;
 	}
 	
 	public static double rayParallelogram(Ray ray, Parallelogram parallelogram) {
@@ -55,24 +59,24 @@ public class CollisionCheck {
 					return length.len();
 				}
 				
-				return -1;
+				return noCollision;
 			}
 			
-			return -1;
+			return noCollision;
 		}
 		
-		return -1;
+		return noCollision;
 	}
-	
+
 	public static double raySphere(Ray ray, Sphere sphere) {
 		Vector3 d = Vector3.sub(sphere.centre, ray.origin);
 		double k1 = Vector3.dot(d, ray.direction);
 		if (k1 <= 0) {
-			return -1;
+			return noCollision;
 		}
 		double k2 = Vector3.dot(d, d) - k1 * k1;
 		if (k2 > sphere.radius2) {
-			return -1;
+			return noCollision;
 		}
 		double k = Math.sqrt(sphere.radius2 - k2);
 		return Math.min(k1 - k, k1 + k);

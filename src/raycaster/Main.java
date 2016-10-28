@@ -50,7 +50,11 @@ public class Main extends Application {
 								new Vector3(-42, -24, 1337)
 						)
 				}),
-				new Sphere(new Vector3(10, -10, 100), 20)
+				new Sphere(new Vector3(10, -10, 100), 20),
+				new Sphere(new Vector3(-10, -10, 120), 30),
+				new Sphere(new Vector3(-20, -10, 120), 30)
+
+
 		));
 
 		AnimationTimer loop = new AnimationTimer() {
@@ -69,7 +73,7 @@ public class Main extends Application {
                 i++;
                 if (i == AVERAGE_FRAMES_COUNT) {
                     long avgTime = Arrays.stream(renderTimes).sum() / AVERAGE_FRAMES_COUNT;
-                    System.out.printf("Rendering took %d ms, averaged over %d frames\n", avgTime / 1000000, AVERAGE_FRAMES_COUNT);
+                    System.out.printf("Average %d FPS over %d frames\n", 1000 / (avgTime / 1000000), AVERAGE_FRAMES_COUNT);
                     i = 0;
                 }
                 //Time test end
