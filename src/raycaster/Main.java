@@ -16,7 +16,8 @@ import java.util.Arrays;
 public class Main extends Application {
 	
 	public static PixelWriter screen;
-
+	static ArrayList<Shape> shapes = new ArrayList<>();
+	
 	public static void main(String[] args) {
 		launch(args);
 		//Okay, so the program doesn't continue from here.
@@ -40,24 +41,6 @@ public class Main extends Application {
 
         final int AVERAGE_FRAMES_COUNT = 5; //Time test
         long[] renderTimes = new long[AVERAGE_FRAMES_COUNT]; //Time test
-
-		ArrayList<Shape> shapes = new ArrayList<>(Arrays.asList(
-				new FlatShape(new Parallelogram []{
-						new Parallelogram(
-								new Vector3(-42, 24, -1337),
-								new Vector3(-42, 24, 1337),
-								new Vector3(-42, -24, -1337),
-								new Vector3(-42, -24, 1337)
-						),
-						new Parallelogram(
-								new Vector3(-42, -24, -1337),
-								new Vector3(42, 24, -1337),
-								new Vector3(42, 24, 1337),
-								new Vector3(42, -24, 1337)
-						)
-				}),
-				new Sphere(new Vector3(10, -10, 100), 20)
-		));
 
 		AnimationTimer loop = new AnimationTimer() {
             int i = 0; //Time test
