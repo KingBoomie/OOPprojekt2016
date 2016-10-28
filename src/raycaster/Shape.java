@@ -5,5 +5,5 @@ package raycaster;
  */
 public abstract class Shape {
 
-    Color color = new Color(0, 128, 128); // TODO Some actual color management for shapes, but logically it should be sides that need to have it
+    Color color = new Color(0, 128, 128);
 }
