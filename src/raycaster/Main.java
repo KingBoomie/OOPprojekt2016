@@ -57,7 +57,7 @@ public class Main extends Application {
 								new Vector3(42, 44, 1337)
 						)
 				}),
-				new Sphere(new Vector3(10, -10, 100), 10)
+				new Cuboid(new Vector3(10, -10, 100), -10, -10, -10)
 
 
 		));

@@ -6,9 +6,9 @@ import java.util.HashSet;
  * Created by oskar on 12/10/2016.
  */
 public class FlatShape extends Shape {
-    private Parallelogram[] parallelograms;
-    private Triangle[] triangles;
-    private Vector3[] vertices;
+    protected Parallelogram[] parallelograms;
+    protected Triangle[] triangles;
+    protected Vector3[] vertices;
 
     public Parallelogram[] getQuads() {
         return parallelograms;
