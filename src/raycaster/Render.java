@@ -1,19 +1,20 @@
 package raycaster;
 
 import java.util.ArrayList;
-import java.util.DoubleSummaryStatistics;
+import java.util.Arrays;
+import java.util.stream.IntStream;
 
 public class Render {
 	static Vector3[] directions;
 	static Vector3 cameraPos = new Vector3(0, 0, 0);
-	static byte[] buffer;
+	static int[] buffer;
 	static int width;
 	static int height;
 	
 	public static void initRender(double xfov, int width, int height) {
 		Render.width = width;
 		Render.height = height;
-		buffer = new byte[width * height * 3];
+		buffer = new int[width * height];
 		
 		xfov = xfov / 180 * Math.PI;
 		double yfov = 2 * Math.atan(Math.tan(xfov / 2) * height / width);
@@ -30,63 +31,56 @@ public class Render {
 		}
 	}
 	
-	public static byte[] render(ArrayList<Shape> shapes) {
-		double distance;
-		int index = 0;
-		int byteIndex = 0;
+	public static int[] render(ArrayList<Shape> shapes) {
 
-		
-		for (int y = 0; y < height; y++) {
-			for (int x = 0; x < width; x++) {
-				Ray ray = new Ray(cameraPos, directions[index]);
-				index += 1;
+		IntStream.range(0, buffer.length)
+				.parallel()
+				.forEach(index -> {
+					Ray ray = new Ray(cameraPos, directions[index]);
 
-				double closestDistance = Double.MAX_VALUE;
-                Color closestColor = new Color(0, 0, 0);
+					double distance = CollisionCheck.noCollision;
+					double closestDistance = Double.MAX_VALUE;
+					Color closestColor = new Color(0, 0, 0);
 
-				for (Shape shape : shapes) {
-					if (shape instanceof FlatShape) {
-						FlatShape fShape = (FlatShape) shape;
+					for (Shape shape : shapes) {
 
-						Triangle[] triangles = fShape.getTriangles();
-						if (triangles != null) {
-							for (Triangle triangle : triangles) {
-								distance = CollisionCheck.rayTriangle(ray, triangle);
-								if (distance < closestDistance) {
-									closestDistance = distance;
-									closestColor = shape.color;
+						if (shape instanceof FlatShape) {
+							FlatShape fShape = (FlatShape) shape;
+
+							Triangle[] triangles = fShape.getTriangles();
+							if (triangles != null) {
+								for (Triangle triangle : triangles) {
+									distance = CollisionCheck.rayTriangle(ray, triangle);
+									if (distance < closestDistance && distance != CollisionCheck.noCollision) {
+										closestDistance = distance;
+										closestColor = shape.color;
+									}
 								}
 							}
-						}
 
-						Parallelogram[] quads = fShape.getQuads();
-						if (quads != null){
-							for (Parallelogram parallelogram : quads) {
-								distance = CollisionCheck.rayParallelogram(ray, parallelogram);
-								if (distance < closestDistance) {
-									closestDistance = distance;
-									closestColor = shape.color;
+							Parallelogram[] quads = fShape.getQuads();
+							if (quads != null) {
+								for (Parallelogram parallelogram : quads) {
+									distance = CollisionCheck.rayParallelogram(ray, parallelogram);
+									if (distance < closestDistance && distance != CollisionCheck.noCollision) {
+										closestDistance = distance;
+										closestColor = shape.color;
+									}
 								}
 							}
-						}
-					} else if (shape instanceof Sphere){
-						distance = CollisionCheck.raySphere(ray, (Sphere) shape);
-						if (distance < closestDistance && distance != CollisionCheck.noCollision) {
-							closestDistance = distance;
-							closestColor = shape.color;
+						} else if (shape instanceof Sphere) {
+							distance = CollisionCheck.raySphere(ray, (Sphere) shape);
+							if (distance < closestDistance && distance != CollisionCheck.noCollision) {
+								closestDistance = distance;
+								closestColor = shape.color;
+							}
 						}
 					}
 
-				}
+					int shade = closestColor.shade(closestDistance);
+					buffer[index] = shade;
+				});
 
-				byte[] shade = closestColor.Shade(closestDistance);
-				for (int i = 0; i < 3; i++) {
-					buffer[byteIndex] = shade[i];
-					byteIndex += 1;
-				}
-			}
-		}
-		
 		return buffer;
 	}
 

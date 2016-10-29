@@ -10,6 +10,7 @@ import javafx.scene.image.PixelWriter;
 import javafx.stage.Stage;
 
 import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -33,7 +34,7 @@ public class Main extends Application {
 		Scene scene = new Scene(root, width, height);
 		stage.setScene(scene);
 		screen = canvas.getGraphicsContext2D().getPixelWriter();
-		PixelFormat<ByteBuffer> pixelFormat = PixelFormat.getByteRgbInstance();
+		PixelFormat<IntBuffer> pixelFormat = PixelFormat.getIntArgbInstance();
 		stage.show();
 		
 		Render.initRender(90, width, height);
@@ -48,11 +49,15 @@ public class Main extends Application {
 								new Vector3(-42, 24, 1337),
 								new Vector3(-42, -24, -1337),
 								new Vector3(-42, -24, 1337)
+						),
+						new Parallelogram(
+								new Vector3(-42, 24, -1337),
+								new Vector3(-42, 24, 1337),
+								new Vector3(42, 44, -1337),
+								new Vector3(42, 44, 1337)
 						)
 				}),
-				new Sphere(new Vector3(10, -10, 100), 20),
-				new Sphere(new Vector3(-10, -10, 120), 30),
-				new Sphere(new Vector3(-20, -10, 120), 30)
+				new Sphere(new Vector3(10, -10, 100), 10)
 
 
 		));
@@ -64,9 +69,9 @@ public class Main extends Application {
                 long startTime = System.nanoTime(); //Time test
 
                 // Rendering
-				byte[] buffer = Render.render(shapes);
-				Main.screen.setPixels(0, 0, width, height, pixelFormat, buffer, 0, width * 3);
-				
+				int[] buffer = Render.render(shapes);
+				Main.screen.setPixels(0, 0, width, height, pixelFormat, buffer, 0, width);
+
 				//Time test
                 long endTime = System.nanoTime();
                 renderTimes[i] = endTime - startTime;

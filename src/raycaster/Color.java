@@ -1,7 +1,11 @@
 package raycaster;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+
 public class Color {
 	byte r, g, b;
+	byte a = 0;
 	
 	Color(int r, int g, int b) {
 		this.r = (byte)r;
@@ -23,13 +27,16 @@ public class Color {
 		return (byte) ((b & 0x80) == 0 ? b : 0xff - (b & ~0x80));
 	}
 	
-	public byte[] Shade(double dist) {
+	public int shade(double dist) {
+		return ByteBuffer.wrap(this.multiply(dist)).order(ByteOrder.LITTLE_ENDIAN).getInt();
+	}
+	private byte[] multiply(double dist) {
 		double mult = 42 / (42 + dist);
-		
-		return new byte[] {
-				toPixelFormat((byte)((r & 0xff) * mult)),
-				toPixelFormat((byte)((g & 0xff) * mult)),
-				toPixelFormat((byte)((b & 0xff) * mult))
+		return new byte[]{
+				a,
+				toPixelFormat((byte) ((r & 0xff) * mult)),
+				toPixelFormat((byte) ((g & 0xff) * mult)),
+				toPixelFormat((byte) ((b & 0xff) * mult))
 		};
 	}
 	
