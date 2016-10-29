@@ -6,11 +6,13 @@ public class Triangle extends Side{
 	Vector3 ab, ac;
 	Plane plane;
 	double xx, xy, yy, d;
+	Color color;
 	
-	Triangle(Vector3 a, Vector3 b, Vector3 c) {
+	Triangle(Vector3 a, Vector3 b, Vector3 c, Color color) {
 		this.a = a;
 		this.b = b;
 		this.c = c;
+		this.color = color;
 		Update();
 	}
 	

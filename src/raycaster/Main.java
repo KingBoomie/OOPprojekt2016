@@ -16,7 +16,6 @@ import java.util.Arrays;
 public class Main extends Application {
 	
 	public static PixelWriter screen;
-	static ArrayList<Shape> shapes = new ArrayList<>();
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -38,8 +37,11 @@ public class Main extends Application {
 		stage.show();
 		
 		Render.initRender(90, width, height);
+		
+		ArrayList<Shape> shapes = new ArrayList<>();
+		shapes.add(new Sphere(new Vector3(10, -10, 100), 20, Color.LIGHT_YELLOW())); //Test
 
-        final int AVERAGE_FRAMES_COUNT = 5; //Time test
+        final int AVERAGE_FRAMES_COUNT = 10; //Time test
         long[] renderTimes = new long[AVERAGE_FRAMES_COUNT]; //Time test
 
 		AnimationTimer loop = new AnimationTimer() {

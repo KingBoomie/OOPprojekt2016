@@ -46,14 +46,14 @@ public class Render {
 						distance = CollisionCheck.rayTriangle(ray, triangle);
 						if (distance > 0) {
 							distances.add(distance);
-							colors.add(shape.color);
+							colors.add(triangle.color);
 						}
 					}
 					for (Parallelogram parallelogram : shape.quadSides) {
 						distance = CollisionCheck.rayParallelogram(ray, parallelogram);
 						if (distance > 0) {
 							distances.add(distance);
-							colors.add(shape.color);
+							colors.add(parallelogram.color);
 						}
 					}
 				}

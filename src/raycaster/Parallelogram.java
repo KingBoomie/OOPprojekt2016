@@ -6,12 +6,14 @@ public class Parallelogram extends Side {
 	Vector3 ab, ac;
 	Plane plane;
 	double xx, xy, yy, d;
+	Color color;
 	
-	Parallelogram(Vector3 a, Vector3 b, Vector3 c, Vector3 d) {
+	Parallelogram(Vector3 a, Vector3 b, Vector3 c, Vector3 d, Color color) {
 		this.a = a;
 		this.b = b;
 		this.c = c;
 		this.e = d;
+		this.color = color;
 		Update();
 	}
 	
