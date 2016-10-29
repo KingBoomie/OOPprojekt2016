@@ -1,7 +1,5 @@
 package raycaster;
 
-import java.util.DoubleSummaryStatistics;
-
 public class CollisionCheck {
 
 	public static final double noCollision = Double.MAX_VALUE;
@@ -15,7 +13,7 @@ public class CollisionCheck {
 			if (m >= 0) {
 				Vector3 length = Vector3.mult(ray.direction, m);
 				Vector3 coord = Vector3.add(ray.origin, length);
-				
+
 				Vector3 z = Vector3.sub(coord, triangle.a);
 				
 				double xz = Vector3.dot(triangle.ab, z);

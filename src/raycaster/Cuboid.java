@@ -9,20 +9,7 @@ public class Cuboid extends FlatShape {
         super(generateParallelograms(centre, length, width, height));
     }
 
-
-    public Cuboid(Parallelogram[] parallelograms, Triangle[] triangles) {
-        super(parallelograms, triangles);
-    }
-
-    public Cuboid(Triangle[] triangles) {
-        super(triangles);
-    }
-
-    public Cuboid(Parallelogram[] parallelograms) {
-        super(parallelograms);
-    }
-
-    public static Parallelogram[] generateParallelograms(Vector3 centre, double length, double width, double height) {
+    private static Parallelogram[] generateParallelograms(Vector3 centre, double length, double width, double height) {
         Vector3 corner1 = centre.add( new Vector3( length/2, + width/2, + height/2));
         Vector3 corner2 = centre.add( new Vector3( length/2, + width/2, - height/2));
         Vector3 corner3 = centre.add( new Vector3( length/2, - width/2, + height/2));
