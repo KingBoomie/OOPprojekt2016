@@ -8,9 +8,9 @@ public class Plane {
 		normal = Vector3.cross(ab, ac);
 	}
 	
-	Plane (Triangle triangle) {
-		plane = triangle.a;
-		normal = Vector3.cross(triangle.b.sub(triangle.a), triangle.c.sub(triangle.a));
+	Plane (Side side) {
+		plane = side.a;
+		normal = Vector3.cross(side.b.sub(side.a), side.c.sub(side.a));
 	}
 	
 	@Override

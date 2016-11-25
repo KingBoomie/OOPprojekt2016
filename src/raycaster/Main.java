@@ -9,13 +9,13 @@ import javafx.scene.image.PixelFormat;
 import javafx.scene.image.PixelWriter;
 import javafx.stage.Stage;
 
-import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Main extends Application {
 	
 	public static PixelWriter screen;
+	static long lastNow = 0; //Time test
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -33,38 +33,22 @@ public class Main extends Application {
 		Scene scene = new Scene(root, width, height);
 		stage.setScene(scene);
 		screen = canvas.getGraphicsContext2D().getPixelWriter();
-		PixelFormat<ByteBuffer> pixelFormat = PixelFormat.getByteRgbInstance();
+		PixelFormat<IntBuffer> pixelFormat = PixelFormat.getIntArgbInstance();
 		stage.show();
 		
 		Render.initRender(90, width, height);
-		
-		ArrayList<Shape> shapes = new ArrayList<>();
-		shapes.add(new Sphere(new Vector3(10, -10, 100), 20, Color.LIGHT_YELLOW())); //Test
-
-        final int AVERAGE_FRAMES_COUNT = 10; //Time test
-        long[] renderTimes = new long[AVERAGE_FRAMES_COUNT]; //Time test
+		ArrayList<Shape> shapes = new ArrayList<Shape>();
 
 		AnimationTimer loop = new AnimationTimer() {
-            int i = 0; //Time test
 			@Override
 			public void handle(long now) {
-                long startTime = System.nanoTime(); //Time test
-
                 // Rendering
-				byte[] buffer = Render.render(shapes);
-				Main.screen.setPixels(0, 0, width, height, pixelFormat, buffer, 0, width * 3);
+				int[] buffer = Render.render(shapes);
+				Main.screen.setPixels(0, 0, width, height, pixelFormat, buffer, 0, width);
 				
 				//Time test
-                long endTime = System.nanoTime();
-                renderTimes[i] = endTime - startTime;
-                i++;
-                if (i == AVERAGE_FRAMES_COUNT) {
-                    long avgTime = Arrays.stream(renderTimes).sum() / AVERAGE_FRAMES_COUNT;
-                    System.out.printf("Rendering took %d ms, averaged over %d frames\n", avgTime / 1000000, AVERAGE_FRAMES_COUNT);
-                    i = 0;
-                }
-                //Time test end
-
+				System.out.println(1e9 / (now - lastNow));
+				lastNow = now;
 			}
 		};
 		
