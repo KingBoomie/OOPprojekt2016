@@ -14,10 +14,10 @@ public class Side {
 		this.c = c;
 		this.color = color;
 		this.isQuad = isQuad;
-		Update();
+		update();
 	}
 	
-	void Update() {
+	void update() {
 		ab = Vector3.sub(b, a);
 		ac = Vector3.sub(c, a);
 		plane = new Plane(a, ab, ac);

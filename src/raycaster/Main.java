@@ -19,7 +19,6 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		launch(args);
-		//Okay, so the program doesn't continue from here.
 		System.out.println("Application closed.");
 	}
 	
@@ -38,11 +37,18 @@ public class Main extends Application {
 		
 		Render.initRender(90, width, height);
 		ArrayList<Shape> shapes = new ArrayList<Shape>();
-
+		
+		//Add all sorts of shapes you want.
+		shapes.add(Shape.cube(new Vector3(-20, 20, 50), 10, Color.ORANGE()));
+		shapes.add(Shape.cube(new Vector3(20, 20, 50), 10, Color.MAGENTA()));
+		shapes.add(Shape.cube(new Vector3(-20, -20, 50), 10, Color.DARK_RED()));
+		shapes.add(Shape.cube(new Vector3(20, -20, 50), 10, Color.NEON_GREEN()));
+		
+		//Start the rendering.
 		AnimationTimer loop = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
-                // Rendering
+                //Rendering
 				int[] buffer = Render.render(shapes);
 				Main.screen.setPixels(0, 0, width, height, pixelFormat, buffer, 0, width);
 				
