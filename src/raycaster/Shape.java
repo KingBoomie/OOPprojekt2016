@@ -106,7 +106,5 @@ public class Shape {
 			side.update();
 		}
 	}
-	/* translate
-	 * 
-	 */
+
 }
