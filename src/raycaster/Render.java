@@ -19,7 +19,7 @@ public class Render {
 		int index = 0;
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++, index++) {
-				double yAngle = y * yfov / height - yfov / 2;
+				double yAngle =  yfov / 2 - y * yfov / height;
 				double xAngle = x * xfov / width - xfov / 2;
 				directions[index] = new Vector3(Math.tan(xAngle), Math.tan(yAngle), 1);
 				directions[index].normalize();
