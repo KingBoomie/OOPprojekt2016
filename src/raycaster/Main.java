@@ -37,6 +37,7 @@ public class Main extends Application {
 		
 		Render.initRender(90, width, height);
 		ArrayList<Shape> shapes = new ArrayList<Shape>();
+		Camera camera = new Camera();
 		
 		//Add all sorts of shapes you want.
 		shapes.add(Shape.cube(new Vector3(-20, 20, 50), 10, Color.ORANGE()));
@@ -49,11 +50,11 @@ public class Main extends Application {
 			@Override
 			public void handle(long now) {
                 //Rendering
-				int[] buffer = Render.render(shapes);
+				int[] buffer = Render.render(shapes, camera);
 				Main.screen.setPixels(0, 0, width, height, pixelFormat, buffer, 0, width);
 				
 				//Time test
-				System.out.println(1e9 / (now - lastNow));
+				System.out.println((int)((now - lastNow) / 1e6) + "ms - " + Math.round(1e10 / (now - lastNow)) / 10.0f + "fps");
 				lastNow = now;
 			}
 		};

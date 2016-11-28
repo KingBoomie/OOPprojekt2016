@@ -1,10 +1,10 @@
 package raycaster;
 
 import java.util.ArrayList;
+import java.util.stream.IntStream;
 
 public class Render {
 	static Vector3[] directions;
-	static Vector3 cameraPos = new Vector3(0, 0, 0);
 	static int[] buffer;
 	static int width, height;
 	
@@ -15,48 +15,49 @@ public class Render {
 		xfov *= Math.PI / 180;
 		double yfov = 2 * Math.atan(Math.tan(xfov / 2) * height / width);
 		
-		directions = new Vector3[width * height]; //Pre-computed ray directions.
-		//What if you turn around though?
-		//TODO: Separate arrays for x and y angles for faster computing.
+		directions = new Vector3[width * height];
+		int index = 0;
 		for (int y = 0; y < height; y++) {
-			double yAngle = y * yfov / height - yfov / 2;
-			for (int x = 0; x < width; x++) {
+			for (int x = 0; x < width; x++, index++) {
+				double yAngle = y * yfov / height - yfov / 2;
 				double xAngle = x * xfov / width - xfov / 2;
-				int index = y * width + x;
 				directions[index] = new Vector3(Math.tan(xAngle), Math.tan(yAngle), 1);
 				directions[index].normalize();
 			}
 		}
+		//TODO: Directions could be stored in a format that's ready for matrix multiplication because they won't be used before being multiplied anyways.
 	}
 	
-	public static int[] render(ArrayList<Shape> shapes) {
-		double distance, tempDistance;
-		Color color = Color.SKY_BLUE();
-		int index = 0;
+	public static int[] render(ArrayList<Shape> shapes, Camera camera) {
+		//TODO: Calculate rotation matrix here? Perhaps a separate class for it?
+		//matrix = MatriceClassName.rotationMatrix(Camera.xAngle, Camera.yAngle, Camera.zAngle);
+		//Or something...
 		
-		for (int y = 0; y < height; y++) {
-			for (int x = 0; x < width; x++, index++) {
-				Ray ray = new Ray(cameraPos, directions[index]);
-				
-				distance = Double.MAX_VALUE;
-				for (Shape shape : shapes) {
-					for (Side side : shape.sides) {
-						tempDistance = CollisionCheck.raySide(ray, side);
-						if (tempDistance > 0 && tempDistance < distance) {
-							distance = tempDistance;
-							color = side.color;
-						}
+		IntStream.range(0, buffer.length).parallel().forEach(index -> {
+			//Vector3 direction = MatriceClassName.multiply(directions[index], matrix);
+			Vector3 direction = directions[index]; //Temporary until the above gets implemented.
+			Ray ray = new Ray(camera.position, direction);
+			double distance, tempDistance;
+			Color color = Color.SKY_BLUE();
+			
+			distance = Double.MAX_VALUE;
+			for (Shape shape : shapes) {
+				for (Side side : shape.sides) {
+					tempDistance = CollisionCheck.raySide(ray, side);
+					if (tempDistance > 0 && tempDistance < distance) {
+						distance = tempDistance;
+						color = side.color;
 					}
 				}
-				
-				if (distance == Double.MAX_VALUE) {
-					buffer[index] = Color.SKY_BLUE().color; //Default "skybox" color.
-				} else {
-					buffer[index] = color.shade(distance);
-				}
-				
 			}
-		}
+			
+			if (distance == Double.MAX_VALUE) {
+				buffer[index] = Color.SKY_BLUE().color; //Default "skybox" color.
+			} else {
+				buffer[index] = color.shade(distance);
+			}
+			
+		});
 		
 		return buffer;
 	}
