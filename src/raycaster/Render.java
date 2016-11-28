@@ -28,7 +28,7 @@ public class Render {
 		//TODO: Directions could be stored in a format that's ready for matrix multiplication because they won't be used before being multiplied anyways.
 	}
 	
-	public static int[] render(ArrayList<Shape> shapes, Camera camera) {
+	public static int[] render(ArrayList<Shape> shapes, ArrayList<Sphere> spheres, Camera camera) {
 		//TODO: Calculate rotation matrix here? Perhaps a separate class for it?
 		//matrix = MatriceClassName.rotationMatrix(Camera.xAngle, Camera.yAngle, Camera.zAngle);
 		//Or something...
@@ -48,6 +48,13 @@ public class Render {
 						distance = tempDistance;
 						color = side.color;
 					}
+				}
+			}
+			for (Sphere sphere : spheres) {
+				tempDistance = CollisionCheck.raySphere(ray, sphere);
+				if (tempDistance > 0 && tempDistance < distance) {
+					distance = tempDistance;
+					color = sphere.color;
 				}
 			}
 			

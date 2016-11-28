@@ -11,4 +11,8 @@ public class Sphere {
 		radius2 = radius * radius;
 		this.color = color;
 	}
+	
+	public void translate(Vector3 translate) {
+		centre = centre.add(translate);
+	}
 }

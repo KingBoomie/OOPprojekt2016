@@ -37,6 +37,7 @@ public class Main extends Application {
 		
 		Render.initRender(90, width, height);
 		ArrayList<Shape> shapes = new ArrayList<Shape>();
+		ArrayList<Sphere> spheres = new ArrayList<Sphere>();
 		Camera camera = new Camera();
 		
 		//Add all sorts of shapes you want.
@@ -44,13 +45,15 @@ public class Main extends Application {
 		shapes.add(Shape.cube(new Vector3(20, 20, 50), 10, Color.MAGENTA()));
 		shapes.add(Shape.cube(new Vector3(-20, -20, 50), 10, Color.DARK_RED()));
 		shapes.add(Shape.cube(new Vector3(20, -20, 50), 10, Color.NEON_GREEN()));
+		shapes.add(Shape.polyPrism(new Vector3(0, -7.5, 50), 17, 5, 35, Color.DARK_YELLOW()));
+		spheres.add(new Sphere(new Vector3(0, 17.5, 50), 9, Color.JADE()));
 		
 		//Start the rendering.
 		AnimationTimer loop = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
                 //Rendering
-				int[] buffer = Render.render(shapes, camera);
+				int[] buffer = Render.render(shapes, spheres, camera);
 				Main.screen.setPixels(0, 0, width, height, pixelFormat, buffer, 0, width);
 				
 				//Time test

@@ -61,6 +61,34 @@ public class Shape {
 		return new Shape(sides, verts);
 	}
 	
+	//Equilateral right prism
+	public static Shape polyPrism(Vector3 center, int n, double radius, double height, Color color) {
+		Side[] sides = new Side[n * 3 - 4];
+		Vector3[] verts = new Vector3[n * 2];
+		double[] h2 = {-height / 2, height / 2};
+		int i = 0;
+		double angle = Math.PI * 2 / n;
+		
+		for (double y : h2) {
+			for (int a = 0; a < n; a++) {
+				verts[i] = new Vector3(radius * Math.sin(angle * a) + center.x, y + center.y, radius * Math.cos(angle * a) + center.z);
+				i++;
+			}
+		}
+		
+		for (i = 1; i < n - 1; i++) {
+			sides[i - 1] = new Side(verts[0], verts[i], verts[i + 1], color, false);
+		}
+		for (i = n + 1; i < 2 * n - 1; i++) {
+			sides[i - 3] = new Side(verts[n], verts[i], verts[i + 1], color, false);
+		}
+		for (i = 0; i < n; i++) {
+			sides[i + 2 * n - 4] = new Side(verts[i], verts[n + i], verts[(i + 1) < n ? i + 1 : 0], color, true);
+		}
+		
+		return new Shape(sides, verts);
+	}
+	
 	public static Shape square(Vector3 center, double size, Color color) {
 		Side[] sides = new Side[1];
 		Vector3[] verts = new Vector3[4];
