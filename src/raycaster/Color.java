@@ -11,8 +11,8 @@ public class Color {
 		this.color = color;
 	}
 	
-	public int shade(double dist) {
-		double mult = 42 / (42 + dist);
+	public int shade(double intensity) {
+		double mult = 0.1 + intensity * 0.9;
 		
 		return 0xFF000000 |
 				((int)(((color >> 16) & 0xFF) * mult) << 16) |

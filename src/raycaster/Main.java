@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.PixelWriter;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
@@ -29,9 +28,9 @@ public class Main extends Application {
 	@Override
 	public void start(Stage stage) {
 		//Initialize a bunch of stuff
-		int width = 400;
-		int height = 225;
-		int upscale = 4;
+		int width = 950;
+		int height = 500;
+		int upscale = 2;
 		
 		stage.setTitle("Raycaster");
 		Canvas canvas = new Canvas(width * upscale, height * upscale);
@@ -46,6 +45,7 @@ public class Main extends Application {
 		ArrayList<Shape> shapes = new ArrayList<Shape>();
 		ArrayList<Sphere> spheres = new ArrayList<Sphere>();
 		camera = new Camera();
+		Vector3 light = new Vector3(30, 50, 0); //Point-light location, can be moved. 
 		
 		//Key state tracker
 		scene.setOnKeyPressed((KeyEvent event) -> {
@@ -74,7 +74,7 @@ public class Main extends Application {
 		shapes.add(Shape.cube(new Vector3(20, 20, 70), 10, Color.MAGENTA()));
 		shapes.add(Shape.cube(new Vector3(-20, -20, 70), 10, Color.DARK_RED()));
 		shapes.add(Shape.cube(new Vector3(20, -20, 70), 10, Color.NEON_GREEN()));
-		shapes.add(Shape.polyPrism(new Vector3(0, -7.5, 70), 17, 5, 35, Color.DARK_YELLOW()));
+		shapes.add(Shape.polyPrism(new Vector3(0, -7.5, 70), 5, 5, 35, Color.DARK_YELLOW()));
 		spheres.add(new Sphere(new Vector3(0, 17.5, 70), 9, Color.JADE()));
 		
 		//Start the rendering.
@@ -95,7 +95,7 @@ public class Main extends Application {
 				if (down)	camera.translate(new Vector3(0, -ds, 0));
 				
 				//Rendering
-				int[] buffer = Render.render(shapes, spheres, camera);
+				int[] buffer = Render.render(shapes, spheres, camera, light);
 				if (upscale > 1) {
 					buffer = upscale(width, height, upscale, buffer);
 				}

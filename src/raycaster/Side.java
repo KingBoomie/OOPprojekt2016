@@ -17,10 +17,10 @@ public class Side {
 		update();
 	}
 	
-	void update() {
+	void update() { //Doesn't need to be called when simply translating the side.
 		ab = Vector3.sub(b, a);
 		ac = Vector3.sub(c, a);
-		plane = new Plane(a, ab, ac);
+		plane = new Plane(a, ab, ac); //When only translating, just do: side.plane.plane = side.plane.a
 		xx = Vector3.dot(ab, ab);
 		xy = Vector3.dot(ab, ac);
 		yy = Vector3.dot(ac, ac);

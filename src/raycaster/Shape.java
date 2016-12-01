@@ -131,7 +131,7 @@ public class Shape {
 			side.a = side.a.add(direction);
 			side.b = side.b.add(direction);
 			side.c = side.c.add(direction);
-			side.update();
+			side.plane.plane = side.a;
 		}
 	}
 
