@@ -7,69 +7,128 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.PixelWriter;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
-import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Main extends Application {
 	
 	public static PixelWriter screen;
+	Camera camera;
+	long lastNow = 0;
+	boolean w, a, s, d, up, down;
 	
 	public static void main(String[] args) {
 		launch(args);
-		//Okay, so the program doesn't continue from here.
 		System.out.println("Application closed.");
 	}
 	
 	@Override
 	public void start(Stage stage) {
-		int width = 1280;
-		int height = 720;
+		//Initialize a bunch of stuff
+		int width = 950;
+		int height = 500;
+		int upscale = 2;
+		
 		stage.setTitle("Raycaster");
-		Canvas canvas = new Canvas(width, height);
+		Canvas canvas = new Canvas(width * upscale, height * upscale);
 		Group root = new Group(canvas);
-		Scene scene = new Scene(root, width, height);
+		Scene scene = new Scene(root, width * upscale, height * upscale);
 		stage.setScene(scene);
 		screen = canvas.getGraphicsContext2D().getPixelWriter();
-		PixelFormat<ByteBuffer> pixelFormat = PixelFormat.getByteRgbInstance();
+		PixelFormat<IntBuffer> pixelFormat = PixelFormat.getIntArgbInstance();
 		stage.show();
 		
-		Render.initRender(90, width, height);
+		Render.initRender(75, width, height);
+		ArrayList<Shape> shapes = new ArrayList<Shape>();
+		ArrayList<Sphere> spheres = new ArrayList<Sphere>();
+		camera = new Camera();
+		Vector3 light = new Vector3(30, 50, 0); //Point-light location, can be moved. 
 		
-		ArrayList<Shape> shapes = new ArrayList<>();
-		shapes.add(new Sphere(new Vector3(10, -10, 100), 20, Color.LIGHT_YELLOW())); //Test
-
-        final int AVERAGE_FRAMES_COUNT = 10; //Time test
-        long[] renderTimes = new long[AVERAGE_FRAMES_COUNT]; //Time test
-
+		//Key state tracker
+		scene.setOnKeyPressed((KeyEvent event) -> {
+			switch (event.getCode()) {
+				case W:			w		= true; break;
+				case A:			a		= true; break;
+				case S:			s		= true; break;
+				case D:			d		= true; break;
+				case SHIFT:		up		= true; break;
+				case CONTROL:	down	= true; break;
+			}
+		});
+		scene.setOnKeyReleased((KeyEvent event) -> {
+			switch (event.getCode()) {
+				case W:			w		= false; break;
+				case A:			a		= false; break;
+				case S:			s		= false; break;
+				case D:			d		= false; break;
+				case SHIFT:		up		= false; break;
+				case CONTROL:	down	= false; break;
+			}
+		});
+		
+		//Add all sorts of shapes you want.
+		shapes.add(Shape.cube(new Vector3(-20, 20, 70), 10, Color.ORANGE()));
+		shapes.add(Shape.cube(new Vector3(20, 20, 70), 10, Color.MAGENTA()));
+		shapes.add(Shape.cube(new Vector3(-20, -20, 70), 10, Color.DARK_RED()));
+		shapes.add(Shape.cube(new Vector3(20, -20, 70), 10, Color.NEON_GREEN()));
+		shapes.add(Shape.polyPrism(new Vector3(0, -7.5, 70), 5, 5, 35, Color.DARK_YELLOW()));
+		spheres.add(new Sphere(new Vector3(0, 17.5, 70), 9, Color.JADE()));
+		
+		//Start the rendering.
 		AnimationTimer loop = new AnimationTimer() {
-            int i = 0; //Time test
 			@Override
 			public void handle(long now) {
-                long startTime = System.nanoTime(); //Time test
-
-                // Rendering
-				byte[] buffer = Render.render(shapes);
-				Main.screen.setPixels(0, 0, width, height, pixelFormat, buffer, 0, width * 3);
+				//Delta time
+				double dTime = (now - lastNow) / 1e9;
+				lastNow = now;
+				
+				//Movement
+				double ds = dTime * 25; //Camera speed
+				if (w)		camera.translate(new Vector3(0, 0, ds));
+				if (a)		camera.translate(new Vector3(-ds, 0, 0));
+				if (s)		camera.translate(new Vector3(0, 0, -ds));
+				if (d)		camera.translate(new Vector3(ds, 0, 0));
+				if (up)		camera.translate(new Vector3(0, ds, 0));
+				if (down)	camera.translate(new Vector3(0, -ds, 0));
+				
+				//Rendering
+				int[] buffer = Render.render(shapes, spheres, camera, light);
+				if (upscale > 1) {
+					buffer = upscale(width, height, upscale, buffer);
+				}
+				Main.screen.setPixels(0, 0, width * upscale, height * upscale, pixelFormat, buffer, 0, width * upscale);
 				
 				//Time test
-                long endTime = System.nanoTime();
-                renderTimes[i] = endTime - startTime;
-                i++;
-                if (i == AVERAGE_FRAMES_COUNT) {
-                    long avgTime = Arrays.stream(renderTimes).sum() / AVERAGE_FRAMES_COUNT;
-                    System.out.printf("Rendering took %d ms, averaged over %d frames\n", avgTime / 1000000, AVERAGE_FRAMES_COUNT);
-                    i = 0;
-                }
-                //Time test end
-
+				System.out.println((int)(1000 * dTime) + "ms - " + Math.round(10 / dTime) / 10.0f + "fps");
 			}
 		};
 		
 		loop.start();
 
+	}
+	
+	public static int[] upscale(int width, int height, int upscale, int[] oldBuffer) {
+		int[] buffer = new int[width * height * upscale * upscale];
+		
+		int preW = width * upscale;
+		for (int y = 0; y < height; y++) {
+			int preY = y * upscale;
+			for (int x = 0; x < width; x++) {
+				int preX = x * upscale;
+				int oldI = y * width + x;
+				for (int b = 0; b < upscale; b++) {
+					int preA = (preY + b) * preW + preX;
+					for (int a = 0; a < upscale; a++) {
+						buffer[preA + a] = oldBuffer[oldI];
+					}
+				}
+			}
+		}
+		
+		return buffer;
 	}
 	
 }

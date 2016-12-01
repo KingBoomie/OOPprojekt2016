@@ -1,6 +1,6 @@
 package raycaster;
 
-public class Sphere extends Shape {
+public class Sphere {
 	Vector3 centre;
 	double radius, radius2;
 	Color color;
@@ -10,5 +10,9 @@ public class Sphere extends Shape {
 		this.radius = radius;
 		radius2 = radius * radius;
 		this.color = color;
+	}
+	
+	public void translate(Vector3 translate) {
+		centre = centre.add(translate);
 	}
 }

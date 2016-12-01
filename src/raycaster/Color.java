@@ -1,36 +1,23 @@
 package raycaster;
 
 public class Color {
-	byte r, g, b;
+	int color;
 	
 	Color(int r, int g, int b) {
-		this.r = (byte)r;
-		this.g = (byte)g;
-		this.b = (byte)b;
+		color = r * 65536 + g * 256 + b - 16777216;
 	}
 	
-	Color(byte r, byte g, byte b) {
-		this.r = r;
-		this.g = g;
-		this.b = b;
+	Color(int color) {
+		this.color = color;
 	}
 	
-	public static int toInt(int r, int g, int b) {
-		return r * 65536 + g * 256 + b - 16777216;
-	}
-	
-	public static byte toPixelFormat(byte b) {
-		return (byte) ((b & 0x80) == 0 ? b : 0xff - (b & ~0x80));
-	}
-	
-	public byte[] Shade(double dist) {
-		double mult = 42 / (42 + dist);
+	public int shade(double intensity) {
+		double mult = 0.1 + intensity * 0.9;
 		
-		return new byte[] {
-				toPixelFormat((byte)((r & 0xff) * mult)),
-				toPixelFormat((byte)((g & 0xff) * mult)),
-				toPixelFormat((byte)((b & 0xff) * mult))
-		};
+		return 0xFF000000 |
+				((int)(((color >> 16) & 0xFF) * mult) << 16) |
+				((int)(((color >> 8) & 0xFF) * mult) << 8) |
+				(int)((color & 0xFF) * mult);
 	}
 	
 	public static Color BLUE() {
