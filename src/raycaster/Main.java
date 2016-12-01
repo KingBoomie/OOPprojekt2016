@@ -76,6 +76,7 @@ public class Main extends Application {
 		shapes.add(Shape.cube(new Vector3(20, -20, 70), 10, Color.NEON_GREEN()));
 		shapes.add(Shape.polyPrism(new Vector3(0, -7.5, 70), 5, 5, 35, Color.DARK_YELLOW()));
 		spheres.add(new Sphere(new Vector3(0, 17.5, 70), 9, Color.JADE()));
+		shapes.add(Shape.square(new Vector3(0, -25, 0), 1e3, Color.WHITE()));
 		
 		//Start the rendering.
 		AnimationTimer loop = new AnimationTimer() {

@@ -50,11 +50,7 @@ public class Render {
 			}
 			for (Sphere sphere : spheres) {
 				collision = CollisionCheck.raySphere(ray, sphere);
-				if (collision == null) continue; //If this can be negative, it shouldn't ever be.
-				if (collision.distance < 0) {
-					System.out.println("NEGATIVE!");
-					System.exit(0);
-				}
+				if (collision == null) continue;
 				collisions.add(collision);
 			}
 			
@@ -81,12 +77,40 @@ public class Render {
 					buffer[index] = collision.color.shade(0);
 				} else {
 					double lightLen = lightDir.len();
-					//diffuse - cos(a) between light source and normal
-					//specular - cos(a) between light reflection and camera (this can be negative, so I improvised)
-					//intensity - diffuse + (specular + 1) / 2
-					//This isn't too resource-intensive, but it's barely an improvement in comparison to plain diffuse.
-					buffer[index] = collision.color.shade((2 * d + Vector3.dot(collision.normal.mult(2 * d).sub(lightDir), direction.mult(-1)) + lightLen) / (4 * lightLen));
-					//buffer[index] = collision.color.shade(d / lightLen); //Plain diffuse
+					//Shadows. Very resource heavy.
+					Vector3 lightRay = new Vector3(lightDir.x, lightDir.y, lightDir.z);
+					lightRay.normalize();
+					boolean inShadow = false;
+					CollisionData shadow = null;
+					for (Sphere sphere : spheres) {
+						shadow = CollisionCheck.raySphere(new Ray(collision.coord, lightRay), sphere);
+						if (shadow == null) continue;
+						if (shadow.distance < lightLen) {
+							inShadow = true;
+							break;
+						}
+					}
+					for (Shape shape : shapes) {
+						if (inShadow) break;
+						for (Side side : shape.sides) {
+							shadow = CollisionCheck.raySide(new Ray(collision.coord, lightRay), side);
+							if (shadow == null) continue;
+							if (shadow.distance < lightLen) {
+								inShadow = true;
+								break;
+							}
+						}
+					}
+					if (inShadow) {
+						buffer[index] = collision.color.shade(0);
+					} else {
+						//diffuse - cos(a) between light source and normal
+						//specular - cos(a) between light reflection and camera (this can be negative, so I improvised)
+						//intensity - diffuse + (specular + 1) / 2
+						//This isn't too resource-intensive, but it's barely an improvement in comparison to plain diffuse.
+						buffer[index] = collision.color.shade((2 * d + Vector3.dot(collision.normal.mult(2 * d).sub(lightDir), direction.mult(-1)) + lightLen) / (4 * lightLen));
+						//buffer[index] = collision.color.shade(d / lightLen); //Plain diffuse
+					}
 				}
 				
 			} else {
