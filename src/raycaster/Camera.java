@@ -11,6 +11,12 @@ public class Camera {
 		yAngle = 0;
 		zAngle = 0;
 	}
+	Camera(Camera camera) {
+		position = new Vector3(camera.position);
+		xAngle = 0;
+		yAngle = 0;
+		zAngle = 0;
+	}
 	
 	Camera(Vector3 position) {
 		this.position = position;
@@ -37,5 +43,10 @@ public class Camera {
 	
 	public void translate(Vector3 translate) {
 		position = position.add(translate);
+	}
+
+	public boolean equals(Camera o) {
+		if (o == null) return false;
+		return position.equals(o.position);
 	}
 }

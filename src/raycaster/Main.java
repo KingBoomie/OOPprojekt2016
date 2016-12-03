@@ -10,6 +10,8 @@ import javafx.scene.image.PixelWriter;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 
@@ -19,29 +21,45 @@ public class Main extends Application {
 	Camera camera;
 	long lastNow = 0;
 	boolean w, a, s, d, up, down;
+	PrintWriter logWriter;
 	
 	public static void main(String[] args) {
 		launch(args);
+
 		System.out.println("Application closed.");
 	}
 	
 	@Override
-	public void start(Stage stage) {
+	public void start(Stage stage){
 		//Initialize a bunch of stuff
-		int width = 950;
-		int height = 500;
-		int upscale = 2;
-		
+
+
+		int width = 1024;
+		int height = 512;
+
+		// Logger init
+
+		try {
+			logWriter = new PrintWriter("./log/" + System.currentTimeMillis());
+		} catch (FileNotFoundException e) {
+			logWriter = null;
+			System.out.println("Not saving frame drawing times to log");
+		}
+
+
+		// JavaFX init
 		stage.setTitle("Raycaster");
-		Canvas canvas = new Canvas(width * upscale, height * upscale);
+		Canvas canvas = new Canvas(width, height);
 		Group root = new Group(canvas);
-		Scene scene = new Scene(root, width * upscale, height * upscale);
+		Scene scene = new Scene(root, width, height);
 		stage.setScene(scene);
 		screen = canvas.getGraphicsContext2D().getPixelWriter();
 		PixelFormat<IntBuffer> pixelFormat = PixelFormat.getIntArgbInstance();
 		stage.show();
-		
-		Render.initRender(75, width, height);
+
+		// Renderer init
+		int upscale = 8;
+		Render.initRender(75, width, height, upscale);
 		ArrayList<Shape> shapes = new ArrayList<Shape>();
 		ArrayList<Sphere> spheres = new ArrayList<Sphere>();
 		camera = new Camera();
@@ -77,11 +95,14 @@ public class Main extends Application {
 		shapes.add(Shape.polyPrism(new Vector3(0, -7.5, 70), 5, 5, 35, Color.DARK_YELLOW()));
 		spheres.add(new Sphere(new Vector3(0, 17.5, 70), 9, Color.JADE()));
 		shapes.add(Shape.square(new Vector3(0, -25, 0), 1e3, Color.WHITE()));
-		
+
 		//Start the rendering.
 		AnimationTimer loop = new AnimationTimer() {
+			long frameCount = 0;
 			@Override
 			public void handle(long now) {
+				++frameCount;
+
 				//Delta time
 				double dTime = (now - lastNow) / 1e9;
 				lastNow = now;
@@ -94,42 +115,20 @@ public class Main extends Application {
 				if (d)		camera.translate(new Vector3(ds, 0, 0));
 				if (up)		camera.translate(new Vector3(0, ds, 0));
 				if (down)	camera.translate(new Vector3(0, -ds, 0));
-				
+
 				//Rendering
-				int[] buffer = Render.render(shapes, spheres, camera, light);
-				if (upscale > 1) {
-					buffer = upscale(width, height, upscale, buffer);
-				}
-				Main.screen.setPixels(0, 0, width * upscale, height * upscale, pixelFormat, buffer, 0, width * upscale);
+				int[] buffer = Render.progressiveRender(shapes, spheres, camera, light);
+				Main.screen.setPixels(0, 0, width, height, pixelFormat, buffer, 0, width);
 				
 				//Time test
 				System.out.println((int)(1000 * dTime) + "ms - " + Math.round(10 / dTime) / 10.0f + "fps");
+				if (logWriter != null && frameCount % 2 == 0) { logWriter.println((int) (1000 * dTime)); logWriter.flush();}
 			}
 		};
 		
 		loop.start();
-
 	}
 	
-	public static int[] upscale(int width, int height, int upscale, int[] oldBuffer) {
-		int[] buffer = new int[width * height * upscale * upscale];
-		
-		int preW = width * upscale;
-		for (int y = 0; y < height; y++) {
-			int preY = y * upscale;
-			for (int x = 0; x < width; x++) {
-				int preX = x * upscale;
-				int oldI = y * width + x;
-				for (int b = 0; b < upscale; b++) {
-					int preA = (preY + b) * preW + preX;
-					for (int a = 0; a < upscale; a++) {
-						buffer[preA + a] = oldBuffer[oldI];
-					}
-				}
-			}
-		}
-		
-		return buffer;
-	}
+
 	
 }

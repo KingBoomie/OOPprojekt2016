@@ -8,6 +8,11 @@ public class Vector3 {
 		this.y = y;
 		this.z = z;
 	}
+	Vector3(Vector3 other) {
+		this.x = other.x;
+		this.y = other.y;
+		this.z = other.z;
+	}
 	
 	public static Vector3 cross(Vector3 a, Vector3 b) {
 		return new Vector3(
@@ -100,5 +105,11 @@ public class Vector3 {
 	public String toString() {
 		return x + ", " + y + ", " + z;
 	}
-	
+
+	public boolean equals(Vector3 o) {
+
+		if (Double.compare(o.x, x) != 0) return false;
+		if (Double.compare(o.y, y) != 0) return false;
+		return Double.compare(o.z, z) == 0;
+	}
 }
