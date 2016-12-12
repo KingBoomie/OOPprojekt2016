@@ -16,7 +16,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.util.Arrays;
 import java.util.Set;
 
 public class Main extends Application {
@@ -37,12 +36,6 @@ public class Main extends Application {
         GameLogic game = new GameLogic(0);
         UiLogic UI = new UiLogic(game);
 
-        // these games are for testing win conditions
-        /*GameLogic game3 = new GameLogic(new int[][] {{0, 1, 1}, {0, 0, 0}, {1, 0, 1}}, 1);
-        GameLogic game2 = new GameLogic(new int[][] {{0, 1, 0}, {1, 0, 1}, {1, 1 ,0}}, 1);
-        GameLogic game4 = new GameLogic(new int[][] {{0, 1, 0}, {0, 0, 1}, {0, 1 ,1}}, 1);
-        System.out.println(game2.checkWinner());
-        */
 
         // Register keyboard events
         scene.setOnKeyReleased(event -> {
@@ -60,13 +53,13 @@ public class Main extends Application {
         Set<Node> buttonSet = root.lookupAll(".grid-button");
         buttonSet.forEach(node -> {
             Button button = (Button) node;
-            final int finalY = GridPane.getRowIndex(button) -1;
+            final int finalY = GridPane.getRowIndex(button) - 1;
             final int finalX = GridPane.getColumnIndex(button);
 
             button.addEventHandler(ActionEvent.ACTION, (event) -> UI.gameTurn(new Integer[]{finalY, finalX}));
 
             UI.addEventHandler(UiLogic.PointEvents.MOVE, new Integer[]{finalY, finalX}, () -> {
-                button.setText(UiLogic.playerDisplay[ -(game.getCurPlayer() -1 )]);
+                button.setText(UiLogic.playerDisplay    [ -(game.getCurPlayer() -1 )]);
                 button.setDisable(true);
                 button.getStyleClass().add(UiLogic.playerDisplay[game.getCurPlayer()]);
             });
@@ -96,8 +89,8 @@ public class Main extends Application {
         settings.managedProperty().bind(settings.visibleProperty());
         ChoiceBox playerSelection0 = (ChoiceBox) root.lookup("#player0");
         ChoiceBox playerSelection1 = (ChoiceBox) root.lookup("#player1");
-        //player0.setItems();
-        ObservableList<Player> players = FXCollections.observableArrayList(
+
+        ObservableList<Player> players = FXCollections.observableArrayList (
                 new Player(),
                 new Player(new AI().SUPEREASY()),
                 new Player(new AI().EASY()),
@@ -105,9 +98,9 @@ public class Main extends Application {
                 new Player(new AI().HARD()),
                 new Player(new AI().SUPERHARD())
         );
+
         playerSelection0.setItems(players);
         playerSelection1.setItems(players);
-
 
         Button newGame = (Button) root.lookup("#new-game-btn");
         newGame.setOnAction((event) -> {
@@ -120,6 +113,7 @@ public class Main extends Application {
             if (event.getCode() == KeyCode.U) {
                 Player player1 = (Player) playerSelection0.getValue();
                 Player player2 = (Player) playerSelection1.getValue();
+                if (player1 == null || player2 == null) return; // Don't do anything when we haven't selected players
                 settings.setVisible(false);
                 UI.startNewGame(player1, player2);
             }
