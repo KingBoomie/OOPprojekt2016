@@ -1,7 +1,10 @@
 package raycaster;
 
 
-import com.momchil_atanasov.data.front.parser.*;
+import com.momchil_atanasov.data.front.parser.IOBJParser;
+import com.momchil_atanasov.data.front.parser.OBJModel;
+import com.momchil_atanasov.data.front.parser.OBJParser;
+import com.momchil_atanasov.data.front.parser.OBJVertex;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -12,17 +15,12 @@ import javafx.scene.image.PixelWriter;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.IntBuffer;
 import java.text.MessageFormat;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.nio.IntBuffer;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Main extends Application {
@@ -38,47 +36,14 @@ public class Main extends Application {
 
 		System.out.println("Application closed.");
 	}
-	
-	@Override
-	public void start(Stage stage) throws IOException {
-		//Initialize a bunch of stuff
 
-
-		int width = 1024;
-		int height = 512;
-
-		// Logger init
-
-		try {
-			logWriter = new PrintWriter("./log/" + System.currentTimeMillis());
-		} catch (FileNotFoundException e) {
-			logWriter = null;
-			System.out.println("Not saving frame drawing times to log");
-		}
-
-
-		// JavaFX init
-		stage.setTitle("Raycaster");
-		Canvas canvas = new Canvas(width, height);
-		Group root = new Group(canvas);
-		Scene scene = new Scene(root, width, height);
-		stage.setScene(scene);
-		screen = canvas.getGraphicsContext2D().getPixelWriter();
-		PixelFormat<IntBuffer> pixelFormat = PixelFormat.getIntArgbInstance();
-		stage.show();
-
-        // Renderer init
-        int upscale = 8;
-		Render.initRender(90, width, height);
-        camera = new Camera();
-        Vector3 light = new Vector3(30, 50, 0); //Point-light location, can be moved.
-
+	static ArrayList<Shape> getOBJ(String path) throws IOException {
         // -------------------------------------------
         // get the obj
         // -------------------------------------------
         InputStream in = null;
         try {
-            in = new FileInputStream("./3D/Inner_divide.obj");
+            in = new FileInputStream(path);
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
             e.printStackTrace();
@@ -103,27 +68,74 @@ public class Main extends Application {
                 .flatMap(object -> object.getMeshes()
                         .stream()
                         .map(mesh -> {
-                            // new flatshape
-                            Triangle[] triangles = mesh.getFaces()
+                            // new shape
+                            HashSet<Vector3> vertexes = new HashSet<Vector3>();
+                            Side[] polys = mesh.getFaces()
                                     .stream()
                                     .map(objFace -> {
                                         // new triangle
-                                        Vector3[] vertexes = objFace.getReferences()
+
+                                        ArrayList<Vector3> poly = objFace.getReferences()
                                                 .stream()
                                                 .map(ref -> {
                                                     OBJVertex v = model.getVertex(ref);
-                                                    return new Vector3(v.x, v.y, v.z+200);
+                                                    return new Vector3(v.x, v.y, v.z);
                                                 })
-                                                .toArray(size -> new Vector3[size]);
+                                                .collect(Collectors.toCollection(ArrayList::new));
+                                        vertexes.addAll(poly);
 
-                                        return new Triangle(vertexes[0], vertexes[1], vertexes[2]);
+                                        if (poly.size() == 3)
+                                            return new Side(poly.get(0), poly.get(1), poly.get(2), Color.BLACK(), false);
+
+                                        return new Side(poly.get(0), poly.get(1), poly.get(2), Color.BLACK(), true);
                                     })
-                                    .toArray(size -> new Triangle[size]);
+                                    .toArray(size -> new Side[size]);
 
-                            return new FlatShape(triangles);
+                            return new Shape(polys, vertexes.toArray(new Vector3[vertexes.size()]));
                         }))
                 .collect(Collectors.toCollection(ArrayList::new));
+        return shapes;
+    }
+	
+	@Override
+	public void start(Stage stage) throws IOException {
+		//Initialize a bunch of stuff
 
+		int width = 1024;
+		int height = 512;
+
+		// Logger init
+		try {
+			logWriter = new PrintWriter("./log/" + System.currentTimeMillis());
+		} catch (FileNotFoundException e) {
+			logWriter = null;
+			System.out.println("Not saving frame drawing times to log");
+		}
+
+
+		// JavaFX init
+		stage.setTitle("Raycaster");
+		Canvas canvas = new Canvas(width, height);
+		Group root = new Group(canvas);
+		Scene scene = new Scene(root, width, height);
+		stage.setScene(scene);
+		screen = canvas.getGraphicsContext2D().getPixelWriter();
+		PixelFormat<IntBuffer> pixelFormat = PixelFormat.getIntArgbInstance();
+		stage.show();
+
+        // Renderer init
+        int upscale = 16;
+		Render.initRender(90, width, height, upscale);
+        camera = new Camera();
+        Vector3 light = new Vector3(250, 200, -100); //Point-light location, can be moved.
+
+
+        ArrayList<Shape> shapes = new ArrayList<>();
+
+        // add objects from file
+        // shapes.addAll(getOBJ("./3D/DW-Abstrikes.obj"));
+
+        ArrayList<Sphere> spheres = new ArrayList<>();
         //Add all sorts of shapes you want.
         shapes.add(Shape.cube(new Vector3(-20, 20, 70), 10, Color.ORANGE()));
         shapes.add(Shape.cube(new Vector3(20, 20, 70), 10, Color.MAGENTA()));
