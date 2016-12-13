@@ -126,6 +126,23 @@ public class Shape {
 		return new Shape(sides, verts);
 	}
 	
+	public static Shape tetrahedron(Vector3 center, double height, Color color) {
+		Side[] sides = new Side[4];
+		Vector3[] verts = new Vector3[4];
+		double a = height / Math.sin(Math.acos(1.0 / 3));
+		
+		verts[0] = new Vector3(center.x, height + center.y, center.z);
+		verts[1] = new Vector3(center.x - a / 2, center.y, center.z - Math.sqrt(3) / 6 * a);
+		verts[2] = new Vector3(center.x + a / 2, center.y, center.z - Math.sqrt(3) / 6 * a);
+		verts[3] = new Vector3(center.x, center.y, center.z + Math.sqrt(3) / 3 * a);
+		sides[0] = new Side(verts[0], verts[1], verts[2], color, false);
+		sides[1] = new Side(verts[0], verts[1], verts[3], color, false);
+		sides[2] = new Side(verts[0], verts[2], verts[3], color, false);
+		sides[3] = new Side(verts[1], verts[2], verts[3], color, false);
+		
+		return new Shape(sides, verts);
+	}
+	
 	public void translate(Vector3 direction) {
 		for (Side side : sides) {
 			side.a = side.a.add(direction);

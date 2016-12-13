@@ -14,6 +14,7 @@ import javafx.scene.image.PixelFormat;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.*;
 import java.nio.IntBuffer;
@@ -114,6 +115,7 @@ public class Main extends Application {
 
 
 		// JavaFX init
+        stage.initStyle(StageStyle.TRANSPARENT);
 		stage.setTitle("Raycaster");
 		Canvas canvas = new Canvas(width, height);
 		Group root = new Group(canvas);
@@ -189,8 +191,8 @@ public class Main extends Application {
                 if (down)	camera.translate(new Vector3(0, -ds, 0));
 
                 //Rendering
-                int[] buffer = Render.progressiveRender(shapes, spheres, camera, light);
-                Main.screen.setPixels(0, 0, width, height, pixelFormat, buffer, 0, width);
+                //int[] buffer = Render.progressiveRender(shapes, spheres, camera, light);
+                //Main.screen.setPixels(0, 0, width, height, pixelFormat, buffer, 0, width);
 
                 //Time test
                 System.out.println((int)(1000 * dTime) + "ms - " + Math.round(10 / dTime) / 10.0f + "fps");

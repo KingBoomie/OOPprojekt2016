@@ -1,6 +1,7 @@
 package raycaster;
 
 import java.util.ArrayList;
+import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
 public class Render {
@@ -42,13 +43,12 @@ public class Render {
 			}
 		}
 	}
-	public static int[] progressiveRender(ArrayList<Shape> shapes, ArrayList<Sphere> spheres, Camera camera, Vector3 light) {
+	public static int[] progressiveRender(ArrayList<Shape> shapes, ArrayList<Sphere> spheres, Camera camera, Vector3 light, double[][] rotation, boolean changed) {
 
+		Consumer<Integer> render_r = (Integer scale) -> render(shapes, spheres, camera, light, rotation, renderIndex, scale.intValue());
 
 		int curZoom = upscale/scaleMultiplier;
-		if(!camera.equals(oldCamera)) {
-			System.out.println("Camera moved");
-
+		if(changed) {
 			oldCamera = new Camera(camera);
 
 			// reset rendering
@@ -56,7 +56,7 @@ public class Render {
 			renderIndex = 0;
 
 			// render
-			render(shapes, spheres, camera, light, renderIndex, scaleMultiplier);
+			render_r.accept(scaleMultiplier);
 			// prepare for next
 			scaleMultiplier /= 2;
 			renderIndex++;
@@ -64,25 +64,21 @@ public class Render {
 		} else if (renderIndex < curZoom * curZoom ) {
 			// if have rendered a new square, upscale it
 			if ((renderIndex+1) % (curZoom*curZoom) == 0) {
-				render(shapes, spheres, camera, light, renderIndex, scaleMultiplier);
+				render_r.accept(scaleMultiplier);
 				if (scaleMultiplier != 1) // upscaling can't be less than 1
 					scaleMultiplier /= 2;
 
 			} else { // else just render it
-				render(shapes, spheres, camera, light, renderIndex, -1);
+				render_r.accept(-1);
 			}
 			renderIndex++;
 
 		}
-		System.out.print("+");
 		return buffer;
 	}
 	
-	public static int[] render(ArrayList<Shape> shapes, ArrayList<Sphere> spheres, Camera camera, Vector3 light, int it, int curUpScale) {
-		//TODO: Calculate rotation matrix here? Perhaps a separate class for it?
-		//matrix = MatriceClassName.rotationMatrix(Camera.xAngle, Camera.yAngle, Camera.zAngle);
-		//Or something...
-		//assert iteration < upscale;
+	public static int[] render(ArrayList<Shape> shapes, ArrayList<Sphere> spheres, Camera camera, Vector3 light, double[][] rotation, int it, int curUpScale) {
+
 
 		IntStream.range(0, buffer.length/upscale/upscale).parallel().forEach(index -> {
 			final int smallWidth = width/upscale;
@@ -95,8 +91,7 @@ public class Render {
 			final int all = (largey + iterationY)*width + largex + iterationX;
 
 			index = all;
-			//Vector3 direction = MatriceClassName.multiply(directions[index], matrix);
-			Vector3 direction = directions[index]; //Temporary until the above gets implemented.
+			Vector3 direction = Matrix.vectorRotate(directions[index], rotation);
 			Ray ray = new Ray(camera.position, direction);
 			CollisionData collision;
 			ArrayList<CollisionData> collisions = new ArrayList<CollisionData>();
@@ -177,7 +172,7 @@ public class Render {
 			} else {
 				buffer[index] = Color.SKY_BLUE().color;
 			}
-			if (curUpScale != -1 && curUpScale != 1) {
+			if (curUpScale != -1) {
 				upscale(index, curUpScale);
 			}
 		});
